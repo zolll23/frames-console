@@ -7,7 +7,7 @@ namespace VPA\Console;
 use VPA\DI\Injectable;
 
 #[Injectable]
-class FrameConsoleConfig implements FrameConfigInterface
+class FrameSimpleConfig implements FrameConfigInterface
 {
     private string $cornerLeftTop;
     private string $cornerRightTop;
@@ -23,18 +23,18 @@ class FrameConsoleConfig implements FrameConfigInterface
 
     public function __construct()
     {
-        $this->lineVertical = "\x78";
-        $this->lineHorizontal = "\x71";
-        $this->cornerLeftMiddle = "\x74";
-        $this->cornerRightMiddle = "\x75";
-        $this->cornerMiddleMiddle = "\x6e";
+        $this->lineVertical = "|";
+        $this->lineHorizontal = "-";
+        $this->cornerLeftMiddle = "+";
+        $this->cornerRightMiddle = "+";
+        $this->cornerMiddleMiddle = "+";
 
-        $this->cornerLeftTop = "\x6c";
-        $this->cornerRightTop = "\x6b";
-        $this->cornerMiddleTop = "\x77";
-        $this->cornerLeftBottom = "\x6d";
-        $this->cornerRightBottom = "\x6b";
-        $this->cornerMiddleBottom = "\x76";
+        $this->cornerLeftTop = "+";
+        $this->cornerRightTop = "+";
+        $this->cornerMiddleTop = "+";
+        $this->cornerLeftBottom = "+";
+        $this->cornerRightBottom = "+";
+        $this->cornerMiddleBottom = "+";
     }
 
     public function __get(string $name): string
@@ -46,10 +46,10 @@ class FrameConsoleConfig implements FrameConfigInterface
 
     public function start(string $symbol)
     {
-        return sprintf("\x1b(0%s",$this->__get($symbol));
+        return $this->__get($symbol);
     }
     public function end(string $symbol)
     {
-        return sprintf("%s\x1b(B",$this->__get($symbol));
+        return $this->__get($symbol);
     }
 }
