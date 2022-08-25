@@ -9,47 +9,40 @@ use VPA\DI\Injectable;
 #[Injectable]
 class FrameConsoleConfig implements FrameConfigInterface
 {
-    private string $cornerLeftTop;
-    private string $cornerRightTop;
-    private string $cornerMiddleTop;
-    private string $cornerLeftBottom;
-    private string $cornerRightBottom;
-    private string $cornerMiddleBottom;
-    private string $lineVertical;
-    private string $lineHorizontal;
-    private string $cornerLeftMiddle;
-    private string $cornerRightMiddle;
-    private string $cornerMiddleMiddle;
+    private FrameSymbol $cornerLeftTop;
+    private FrameSymbol $cornerRightTop;
+    private FrameSymbol $cornerMiddleTop;
+    private FrameSymbol $cornerLeftBottom;
+    private FrameSymbol $cornerRightBottom;
+    private FrameSymbol $cornerMiddleBottom;
+    private FrameSymbol $lineVertical;
+    private FrameSymbol $lineHorizontal;
+    private FrameSymbol $cornerLeftMiddle;
+    private FrameSymbol $cornerRightMiddle;
+    private FrameSymbol $cornerMiddleMiddle;
 
     public function __construct()
     {
-        $this->lineVertical = "\x78";
-        $this->lineHorizontal = "\x71";
-        $this->cornerLeftMiddle = "\x74";
-        $this->cornerRightMiddle = "\x75";
-        $this->cornerMiddleMiddle = "\x6e";
+        $this->lineVertical = new FrameSymbol("\x78", "|");
+        $this->lineHorizontal = new FrameSymbol("\x71", "-");
+        $this->cornerLeftMiddle = new FrameSymbol("\x74", "a");
+        $this->cornerRightMiddle = new FrameSymbol("\x75", "d");
+        $this->cornerMiddleMiddle = new FrameSymbol("\x6e", "s");
 
-        $this->cornerLeftTop = "\x6c";
-        $this->cornerRightTop = "\x6b";
-        $this->cornerMiddleTop = "\x77";
-        $this->cornerLeftBottom = "\x6d";
-        $this->cornerRightBottom = "\x6b";
-        $this->cornerMiddleBottom = "\x76";
+        $this->cornerLeftTop = new FrameSymbol("\x6c", "q");
+        $this->cornerRightTop = new FrameSymbol("\x6b", "e");
+        $this->cornerMiddleTop = new FrameSymbol("\x77", "w");
+        $this->cornerLeftBottom = new FrameSymbol("\x6d", "z");
+        $this->cornerRightBottom = new FrameSymbol("\x6a", "c");
+        $this->cornerMiddleBottom = new FrameSymbol("\x76", "x");
     }
 
-    public function __get(string $name): string
+    public function __get(string $name): FrameSymbol
     {
         if ($this->$name) {
             return $this->$name;
         }
     }
 
-    public function start(string $symbol)
-    {
-        return sprintf("\x1b(0%s",$this->__get($symbol));
-    }
-    public function end(string $symbol)
-    {
-        return sprintf("%s\x1b(B",$this->__get($symbol));
-    }
+
 }

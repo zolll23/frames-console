@@ -8,7 +8,8 @@ class Page extends Glyph
 {
     protected int $documentWidth = 80;
 
-    public function __construct(protected FrameConfigInterface $globalConfig) {
+    public function __construct(protected FrameConfigInterface $globalConfig)
+    {
         parent::__construct($globalConfig);
         try {
             if (PHP_OS_FAMILY === 'Windows') {

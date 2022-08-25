@@ -39,7 +39,7 @@ class Table extends GlyphBlock
         return $this->widthByContent;
     }
 
-    public function render(): array
+    public function render(): Glyph
     {
         return parent::render();
     }

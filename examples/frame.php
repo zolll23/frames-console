@@ -5,7 +5,6 @@ use VPA\Console\FrameConsoleConfig;
 use VPA\Console\FrameSimpleConfig;
 use VPA\Console\Glyphs\Page;
 use VPA\Console\Glyphs\Table;
-use VPA\Console\Table1D;
 use VPA\DI\Container;
 
 require_once(__DIR__ . '/../vendor/autoload.php');
@@ -17,21 +16,25 @@ $di->registerContainers([
     'VPA\Console\FrameConfigInterface' => FrameConsoleConfig::class,
 ]);
 
-$table = new Table1D([
-    'Project'=> 'Frames Console',
-    'Version'=> 'v0.1.0',
-    'Description' => 'The library to beautiful display of tables on console',
-]);
+
+$page = $di->get(Page::class);
+
+$div = $page->addDiv()->setBorder(1, 1, 1, 1)->setPadding(0, 0, 0, 0);
+$div2 = $div->addDiv()->setBorder(1, 1, 1, 1)->setPadding(1, 1, 1, 1);
+$text = $div2->addText()->setValue("First Name is your name, Lastname - is name of pedigree")->render();
+var_dump(['Text', $text->getWidth(), $text->getHeight()]);
+$div->display();
+var_dump(['Div', $div->getWidth(), $div->getHeight()]);
+//$page->display();
 
 /*
-$page = $di->get(Page::class);
 $table = $page->addTable();
 $header = $table->addRow();
 $header->addCell()->setPadding(1,1,0,0)->addText()->setValue("First Name");
 $header->addCell()->setPadding(1,1,0,0)->addText()->setValue("Last Name");
 $page->display();
 echo $header->getDocumentWidth()."\n";
-echo $page->getWidthByContent()."\n";
+echo $page->getWidth()."\n";
 */
 /*
 $frame = (new Frame([5, 12, 35]))->padding(2);

@@ -4,52 +4,44 @@
 namespace VPA\Console;
 
 
+use VPA\Console\FrameSymbol;
 use VPA\DI\Injectable;
 
 #[Injectable]
 class FrameSimpleConfig implements FrameConfigInterface
 {
-    private string $cornerLeftTop;
-    private string $cornerRightTop;
-    private string $cornerMiddleTop;
-    private string $cornerLeftBottom;
-    private string $cornerRightBottom;
-    private string $cornerMiddleBottom;
-    private string $lineVertical;
-    private string $lineHorizontal;
-    private string $cornerLeftMiddle;
-    private string $cornerRightMiddle;
-    private string $cornerMiddleMiddle;
+    private FrameSymbol $cornerLeftTop;
+    private FrameSymbol $cornerRightTop;
+    private FrameSymbol $cornerMiddleTop;
+    private FrameSymbol $cornerLeftBottom;
+    private FrameSymbol $cornerRightBottom;
+    private FrameSymbol $cornerMiddleBottom;
+    private FrameSymbol $lineVertical;
+    private FrameSymbol $lineHorizontal;
+    private FrameSymbol $cornerLeftMiddle;
+    private FrameSymbol $cornerRightMiddle;
+    private FrameSymbol $cornerMiddleMiddle;
 
     public function __construct()
     {
-        $this->lineVertical = "|";
-        $this->lineHorizontal = "-";
-        $this->cornerLeftMiddle = "+";
-        $this->cornerRightMiddle = "+";
-        $this->cornerMiddleMiddle = "+";
+        $this->lineVertical = new FrameSymbol("|");
+        $this->lineHorizontal = new FrameSymbol("-");
+        $this->cornerLeftMiddle = new FrameSymbol("+");
+        $this->cornerRightMiddle = new FrameSymbol("+");
+        $this->cornerMiddleMiddle = new FrameSymbol("+");
 
-        $this->cornerLeftTop = "+";
-        $this->cornerRightTop = "+";
-        $this->cornerMiddleTop = "+";
-        $this->cornerLeftBottom = "+";
-        $this->cornerRightBottom = "+";
-        $this->cornerMiddleBottom = "+";
+        $this->cornerLeftTop = new FrameSymbol("+");
+        $this->cornerRightTop = new FrameSymbol("+");
+        $this->cornerMiddleTop = new FrameSymbol("+");
+        $this->cornerLeftBottom = new FrameSymbol("+");
+        $this->cornerRightBottom = new FrameSymbol("+");
+        $this->cornerMiddleBottom = new FrameSymbol("+");
     }
 
-    public function __get(string $name): string
+    public function __get(string $name): FrameSymbol
     {
         if ($this->$name) {
             return $this->$name;
         }
-    }
-
-    public function start(string $symbol)
-    {
-        return $this->__get($symbol);
-    }
-    public function end(string $symbol)
-    {
-        return $this->__get($symbol);
     }
 }

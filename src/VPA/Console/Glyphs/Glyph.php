@@ -3,6 +3,7 @@
 namespace VPA\Console\Glyphs;
 
 use VPA\Console\FrameConfigInterface;
+use VPA\Console\Symbol;
 use VPA\DI\Injectable;
 
 #[Injectable]
@@ -12,18 +13,16 @@ abstract class Glyph
     protected array $config = [];
     protected ?Glyph $parent = null;
     protected int $documentWidth = 80;
-    protected int $widthByContent = 0;
-    protected int $heightByContent = 0;
+    protected int $width = 0;
+    protected int $height = 0;
     protected ?bool $isFirstSibling = null;
     protected ?bool $isLastSibling = null;
-    protected bool $directionX = true;
-    protected bool $widthEqualsSibling = false;
-    protected bool $heightEqualsSibling = false;
     protected array $renderMap = [];
     protected int $X = 0;
     protected int $Y = 0;
     protected int $offsetX = 0;
     protected int $offsetY = 0;
+    protected bool $rendered = false;
 
 
     public function __construct(protected FrameConfigInterface $globalConfig)
@@ -83,26 +82,26 @@ abstract class Glyph
 
     public function display(): void
     {
-        $this->getWidthByContent();
-        $this->getHeightByContent();
         $width = $this->getWidth();
         $height = $this->getHeight();
+        var_dump([get_class($this), $width, $height]);
         for ($i = 0; $i < $height; $i++) {
-           $this->renderMap[$i] = array_fill(0,$width, '_');
+            $this->renderMap[$i] = array_fill(0, $width, new Symbol('.'));
         }
-        $this->printMap();
         $this->render();
         $this->printMap();
     }
 
-    public function render(): array
+    public function render(): Glyph
     {
-        if (!is_null($this->children)) {
-            foreach ($this->children as $child) {
-                $this->mergeMaps($child->render());
-            }
+        if ($this->rendered) {
+            return $this;
         }
-        return $this->renderMap;
+        foreach ($this->children as $child) {
+            $this->mergeMaps($child->render());
+        }
+        $this->rendered = true;
+        return $this;
     }
 
     public function isFirstSibling(Glyph $child): bool
@@ -148,85 +147,57 @@ abstract class Glyph
         }
     }
 
-    public function getWidthByContent(int $endOffsetPreviousSibling = 0): int
-    {
-        $this->X = $endOffsetPreviousSibling;
-        if (is_null($this->children)) {
-            return $this->widthByContent;
-        } else {
-            $maxWidth = 0;
-            $directionX = true;
-            foreach ($this->children as $child) {
-                $directionX = $child->directionIsX();
-                $width = $child->getWidthByContent($this->widthByContent);
-                $maxWidth = $maxWidth < $width ? $width : $maxWidth;
-                if ($directionX) {
-                    $this->widthByContent += $width;
-                }
-            }
-            if (!$directionX) {
-                $this->widthByContent = $maxWidth;
-            }
-            return $this->widthByContent;
-        }
-    }
-
     protected function printMap(): void
     {
         echo "Print " . get_class($this) . "\n";
         echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
         foreach ($this->renderMap as $y => $list) {
-            echo "Line $y: " . implode("", $list) . "\n";
+            echo str_pad($y,3,'0',STR_PAD_LEFT).": " . implode("", $list) . "\n";
         }
         echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
     }
 
-    public function directionIsX(): bool
+    public function getSize(): array
     {
-        return $this->directionX;
-    }
-
-    public function getHeightByContent(int $endOffsetPreviousSibling = 0): int
-    {
-        $this->Y = $endOffsetPreviousSibling;
-        if (is_null($this->children)) {
-            return $this->heightByContent;
-        } else {
-            $maxHeight = 0;
-            $directionX = false;
-            foreach ($this->children as $child) {
-                $directionX = $child->directionIsX();
-                $height = $child->getHeightByContent($this->heightByContent);
-                $maxHeight = $maxHeight < $height ? $height : $maxHeight;
-                if (!$directionX) {
-                    $this->heightByContent += $height;
-                }
-            }
-            if ($directionX) {
-                $this->heightByContent = $maxHeight;
-            }
-            return $this->heightByContent;
+        if ($this->rendered) {
+            return [$this->width, $this->height];
         }
+        foreach ($this->children as $child) {
+            $renderedChild = $child->render();
+        }
+        $this->rendered = true;
+        if (isset($renderedChild)) {
+            $this->width = $renderedChild->getWidth();
+            $this->height = $renderedChild->getHeight();
+        }
+        return [$this->width, $this->height];
     }
 
-    public function getWidth(): int
+    public function getWidth(int $endOfPreviousSibling = 0): int
     {
-        return $this->widthByContent;
+        $this->X = $endOfPreviousSibling;
+        foreach ($this->children as $child) {
+            $this->width = $child->getWidth($this->width);
+        }
+        return $this->width;
     }
 
     public function setWidth(int $width): void
     {
-        $this->widthByContent = $width;
+        $this->width = $width;
     }
 
     public function getHeight(): int
     {
-        return $this->heightByContent;
+        foreach ($this->children as $child) {
+            $this->height = $child->getHeight();
+        }
+        return $this->height;
     }
 
     public function setHeight(int $height): void
     {
-        $this->heightByContent = $height;
+        $this->height = $height;
     }
 
     public function setParent(Glyph $parent): void
@@ -237,22 +208,30 @@ abstract class Glyph
     public function addTable(array $config = []): Glyph
     {
         $table = new Table($this->globalConfig);
-        $table->setConfig(array_merge($this->getConfig(), $config));
+        $table->setConfig(array_merge($table->getConfig(), $config));
         $this->addChild($table);
         return $table;
+    }
+
+    public function addDiv(array $config = []): Glyph
+    {
+        $div = new Div($this->globalConfig);
+        $div->setConfig(array_merge($div->getConfig(), $config));
+        $this->addChild($div);
+        return $div;
     }
 
     public function addText(array $config = []): Glyph
     {
         $text = new Text($this->globalConfig);
-        $text->setConfig(array_merge($this->getConfig(), $config));
+        $text->setConfig(array_merge($text->getConfig(), $config));
         $this->addChild($text);
         return $text;
     }
 
-    private function mergeMaps(array $render)
+    private function mergeMaps(Glyph $render)
     {
-        foreach ($render as $y => $line) {
+        foreach ($render->renderMap as $y => $line) {
             foreach ($line as $x => $item) {
                 $coordX = $this->X + $this->offsetX + $x;
                 $coordY = $this->Y + $this->offsetY + $y;
