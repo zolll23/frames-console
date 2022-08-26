@@ -84,7 +84,7 @@ abstract class Glyph
     {
         $width = $this->getWidth();
         $height = $this->getHeight();
-        var_dump([get_class($this), $width, $height]);
+        //var_dump([get_class($this), $width, $height]);
         for ($i = 0; $i < $height; $i++) {
             $this->renderMap[$i] = array_fill(0, $width, new Symbol('.'));
         }
@@ -94,13 +94,9 @@ abstract class Glyph
 
     public function render(): Glyph
     {
-        if ($this->rendered) {
-            return $this;
-        }
         foreach ($this->children as $child) {
             $this->mergeMaps($child->render());
         }
-        $this->rendered = true;
         return $this;
     }
 
@@ -167,19 +163,34 @@ abstract class Glyph
         }
         $this->rendered = true;
         if (isset($renderedChild)) {
-            $this->width = $renderedChild->getWidth();
+            $this->width = $renderedChild->getWidthByContent();
             $this->height = $renderedChild->getHeight();
         }
         return [$this->width, $this->height];
     }
 
-    public function getWidth(int $endOfPreviousSibling = 0): int
+    public function getWidthByContent(int $endOfPreviousSibling = 0): int
     {
         $this->X = $endOfPreviousSibling;
         foreach ($this->children as $child) {
             $this->width = $child->getWidth($this->width);
         }
         return $this->width;
+    }
+
+    public function getWidth(): int
+    {
+        return $this->width;
+    }
+
+    public function setX(int $x): void
+    {
+        $this->X = $x;
+    }
+
+    public function setY(int $y): void
+    {
+        $this->Y = $y;
     }
 
     public function setWidth(int $width): void
@@ -231,10 +242,13 @@ abstract class Glyph
 
     private function mergeMaps(Glyph $render)
     {
+        var_dump([
+            get_class($render), $render->X, $render->Y
+        ]);
         foreach ($render->renderMap as $y => $line) {
             foreach ($line as $x => $item) {
-                $coordX = $this->X + $this->offsetX + $x;
-                $coordY = $this->Y + $this->offsetY + $y;
+                $coordX = $render->X + $this->offsetX + $x;
+                $coordY = $render->Y + $this->offsetY + $y;
                 $this->renderMap[$coordY][$coordX] = $item;
             }
         }

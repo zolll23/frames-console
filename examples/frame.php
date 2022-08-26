@@ -19,23 +19,23 @@ $di->registerContainers([
 
 $page = $di->get(Page::class);
 
-$div = $page->addDiv()->setBorder(1, 1, 1, 1)->setPadding(0, 0, 0, 0);
-$div2 = $div->addDiv()->setBorder(1, 1, 1, 1)->setPadding(1, 1, 1, 1);
-$text = $div2->addText()->setValue("First Name is your name, Lastname - is name of pedigree")->render();
-var_dump(['Text', $text->getWidth(), $text->getHeight()]);
-$div->display();
-var_dump(['Div', $div->getWidth(), $div->getHeight()]);
+//$div = $page->addDiv()->setBorder(1, 1, 1, 1)->setPadding(1, 1, 0, 0);
+//$div2 = $div->addDiv()->setBorder(1, 1, 1, 1)->setPadding(1, 1, 1, 1);
+//$text = $div2->addText()->setValue("First Name is your name, Lastname - is name of pedigree")->render();
+////var_dump(['Text', $text->getWidth(), $text->getHeight()]);
+////$div->render();
+////var_dump(['Div', $div->getWidth(), $div->getHeight()]);
 //$page->display();
+////var_dump(['Page', $page->getWidth(), $page->getHeight()]);
 
-/*
-$table = $page->addTable();
+$table = $page->addTable()->setBorder(1, 1, 1, 1);
 $header = $table->addRow();
-$header->addCell()->setPadding(1,1,0,0)->addText()->setValue("First Name");
-$header->addCell()->setPadding(1,1,0,0)->addText()->setValue("Last Name");
+$header->addCell()->setPadding(1, 1, 0, 0)->setBorder(0,1,0,0)->addText()->setValue("First Name");
+$header->addCell()->setPadding(1, 1, 0, 0)->addText()->setValue("Last Name");
 $page->display();
-echo $header->getDocumentWidth()."\n";
-echo $page->getWidth()."\n";
-*/
+echo $header->getDocumentWidth() . "\n";
+echo $page->getWidth() . "\n";
+
 /*
 $frame = (new Frame([5, 12, 35]))->padding(2);
 $frame->row(['10', 'test', 'This is test']);

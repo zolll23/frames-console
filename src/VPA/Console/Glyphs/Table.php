@@ -3,6 +3,8 @@
 namespace VPA\Console\Glyphs;
 
 
+use VPA\Console\Symbol;
+
 class Table extends GlyphBlock
 {
     public function addRow(array $config = []): Glyph
@@ -21,26 +23,37 @@ class Table extends GlyphBlock
                 $cellLengths[$cellIndex][$rowIndex] = $cell->getWidthByContent();
             }
         }
-        $this->widthByContent = $endOffsetPreviousSibling;
+        $this->width = $endOffsetPreviousSibling;
         $maxCellLengths = [];
         foreach ($cellLengths as $rowIndex => $cells) {
             $maxCellLength = max($cells);
             $maxCellLengths[$rowIndex] = $maxCellLength;
-            $this->widthByContent += $maxCellLength;
+            $this->width += $maxCellLength;
         }
-
+        echo "LS:\n";
+        var_dump($maxCellLengths);
         foreach ($this->children as $rowIndex => $row) {
-            $row->setWidth($this->widthByContent);
+            $row->setWidth($this->width);
             $cells = $row->getChildren();
+            $offset = 0;
             foreach ($cells as $cellIndex => $cell) {
                 $cell->setWidth($maxCellLengths[$cellIndex]);
+                $cell->setX($offset);
+                $offset += $maxCellLengths[$cellIndex];
             }
         }
-        return $this->widthByContent;
+
+        $this->appendWidth($this->width);
+        return $this->width;
     }
 
     public function render(): Glyph
     {
-        return parent::render();
+        $width = $this->getWidthByContent();
+        $height = $this->getHeight();
+        var_dump(['Table', $width, $height]);
+        parent::render();
+        $this->renderBySprites();
+        return $this;
     }
 }

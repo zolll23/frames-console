@@ -12,4 +12,13 @@ class Cell extends GlyphBlock
         $this->addChild($text);
         return $text;
     }
+    public function getWidthByContent(int $endOfPreviousSibling = 0): int
+    {
+        foreach ($this->children as $child) {
+            $this->width = $child->getWidth($this->width);
+        }
+        parent::appendWidth($this->width);
+        return $this->width;
+    }
+
 }

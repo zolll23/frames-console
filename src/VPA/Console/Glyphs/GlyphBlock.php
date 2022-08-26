@@ -44,16 +44,26 @@ abstract class GlyphBlock extends Glyph
     }
 
 
-    public function getWidth(int $endOfPreviousSibling = 0): int
+    public function getWidthByContent(int $endOfPreviousSibling = 0): int
     {
         $this->offsetX = $this->__get('paddingLeft') + $this->__get('borderLeft');
-        $this->width = parent::getWidth($endOfPreviousSibling) +
+        $this->width = parent::getWidthByContent($endOfPreviousSibling) +
             $this->__get('paddingLeft') +
             $this->__get('borderLeft') +
             $this->__get('paddingRight') +
             $this->__get('borderRight');
-        echo get_class($this) . " width = " . $this->width . ' offsetX: ' . $this->offsetX . "\n";
+        //echo get_class($this) . " width = " . $this->width . ' offsetX: ' . $this->offsetX . "\n";
         return $this->width;
+    }
+
+    public function appendWidth(int $value): void
+    {
+        $this->offsetX = $this->__get('paddingLeft') + $this->__get('borderLeft');
+        $this->width = $value +
+            $this->__get('paddingLeft') +
+            $this->__get('borderLeft') +
+            $this->__get('paddingRight') +
+            $this->__get('borderRight');
     }
 
     public function getHeight(): int
@@ -64,14 +74,13 @@ abstract class GlyphBlock extends Glyph
             $this->__get('borderTop') +
             $this->__get('paddingBottom') +
             $this->__get('borderBottom');
-        echo get_class($this) . " height = " . $this->height . ' offsetY: ' . $this->offsetX . "\n";
-        echo $this->__get('borderBottom') . "\n";
+        //echo get_class($this) . " height = " . $this->height . ' offsetY: ' . $this->offsetX . "\n";
         return $this->height;
     }
 
     public function render(): Glyph
     {
-        $width = $this->getWidth();
+        $width = $this->getWidthByContent();
         $height = $this->getHeight();
         for ($i = 0; $i < $height; $i++) {
             $this->renderMap[$i] = array_fill(0, $width, new Symbol('.'));
@@ -118,7 +127,7 @@ abstract class GlyphBlock extends Glyph
                 if ($newSymbol) {
                     $this->renderMap[$y][$x] = $newSymbol;
                 }
-                echo $codes . "\t";
+                //echo $codes . "\t";
             }
         }
     }
@@ -146,6 +155,12 @@ abstract class GlyphBlock extends Glyph
                 return $this->globalConfig->cornerRightBottom;
             case '|0|-0':
                 return $this->globalConfig->cornerLeftBottom;
+            case '0---|':
+            case '0-|-|':
+                return $this->globalConfig->cornerMiddleTop;
+            case '|---0':
+            case '--|-0':
+                return $this->globalConfig->cornerMiddleBottom;
         }
         return false;
     }
