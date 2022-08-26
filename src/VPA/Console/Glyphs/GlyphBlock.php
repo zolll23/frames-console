@@ -74,7 +74,6 @@ abstract class GlyphBlock extends Glyph
             $this->__get('borderTop') +
             $this->__get('paddingBottom') +
             $this->__get('borderBottom');
-        //echo get_class($this) . " height = " . $this->height . ' offsetY: ' . $this->offsetX . "\n";
         return $this->height;
     }
 
