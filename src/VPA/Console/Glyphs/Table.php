@@ -10,6 +10,7 @@ class Table extends GlyphBlock
     public function addRow(array $config = []): Glyph
     {
         $row = new Row($this->globalConfig);
+        $row->setConfig(array_merge($row->getConfig(), $config));
         $this->addChild($row);
         return $row;
     }
@@ -30,8 +31,6 @@ class Table extends GlyphBlock
             $maxCellLengths[$rowIndex] = $maxCellLength;
             $this->width += $maxCellLength;
         }
-        echo "LS:\n";
-        var_dump($maxCellLengths);
         foreach ($this->children as $rowIndex => $row) {
             $row->setWidth($this->width);
             $cells = $row->getChildren();
@@ -42,17 +41,62 @@ class Table extends GlyphBlock
                 $offset += $maxCellLengths[$cellIndex];
             }
         }
-
+        $this->renderedWidth = true;
         $this->appendWidth($this->width);
         return $this->width;
+    }
+
+    public function getHeightByContent(int $endOfPreviousSibling = 0): int
+    {
+        $cellHeights = [];
+        // Find the height of all cells
+        foreach ($this->children as $rowIndex => $row) {
+            $cells = $row->getChildren();
+            foreach ($cells as $cellIndex => $cell) {
+                $cellHeights[$rowIndex][$cellIndex] = $cell->getHeightByContent();
+            }
+        }
+        $this->height = $endOfPreviousSibling;
+        $maxCellHeights = [];
+        // Find the max height of cell
+        foreach ($cellHeights as $rowIndex => $cells) {
+            $maxCellHeight = !empty($cells) ? max($cells) : 0;
+            $maxCellHeights[$rowIndex] = $maxCellHeight;
+        }
+        $offset = 0;
+        foreach ($this->children as $rowIndex => $row) {
+            $maxHeight = $maxCellHeights[$rowIndex];
+            $row->setHeight($maxHeight);
+            $row->setY($offset);
+            $this->height += $row->getHeight();
+            $offset += $row->getHeight();
+            $cells = $row->getChildren();
+            foreach ($cells as $cellIndex => $cell) {
+                $cell->setHeight($maxHeight);
+            }
+        }
+        $this->renderedHeight = true;
+        $this->appendHeight($this->height);
+        return $this->height;
     }
 
     public function render(): Glyph
     {
         $width = $this->getWidthByContent();
-        $height = $this->getHeight();
-        var_dump(['Table', $width, $height]);
-        parent::render();
+        $height = $this->getHeightByContent();
+        echo implode("\t",['Table', $this->width, $this->height])."\n";
+        foreach ($this->children as $rowIndex => $row) {
+            echo implode("\t",['Row', $row->width, $row->height])."\n";
+            foreach ($row->children as $cell) {
+                echo implode("\t",['Cell', $cell->width, $cell->height])."\n";
+            }
+        }
+        //parent::render();
+        for ($i = 0; $i < $height; $i++) {
+            $this->renderMap[$i] = array_fill(0, $width, $this->globalConfig->__get('space'));
+        }
+        Glyph::render();
+        $this->renderBorder();
         $this->renderBySprites();
         return $this;
     }

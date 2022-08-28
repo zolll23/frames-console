@@ -7,6 +7,11 @@ use VPA\Console\Symbol;
 
 abstract class GlyphBlock extends Glyph
 {
+    /**
+     * @var array|mixed
+     */
+    private $cachedRenderMap;
+
     public function __construct(protected FrameConfigInterface $globalConfig)
     {
         parent::__construct($globalConfig);
@@ -66,10 +71,21 @@ abstract class GlyphBlock extends Glyph
             $this->__get('borderRight');
     }
 
-    public function getHeight(): int
+    public function appendHeight(int $value): void
     {
         $this->offsetY = $this->__get('paddingTop') + $this->__get('borderTop');
-        $this->height = parent::getHeight() +
+        $this->height = $value +
+            $this->__get('paddingTop') +
+            $this->__get('borderTop') +
+            $this->__get('paddingBottom') +
+            $this->__get('borderBottom');
+    }
+
+
+    public function getHeightByContent(int $endOfPreviousSibling = 0): int
+    {
+        $this->offsetY = $this->__get('paddingTop') + $this->__get('borderTop');
+        $this->height = parent::getHeightByContent($endOfPreviousSibling) +
             $this->__get('paddingTop') +
             $this->__get('borderTop') +
             $this->__get('paddingBottom') +
@@ -80,19 +96,22 @@ abstract class GlyphBlock extends Glyph
     public function render(): Glyph
     {
         $width = $this->getWidthByContent();
-        $height = $this->getHeight();
+        $height = $this->getHeightByContent();
+        //echo implode(",\t", [basename(__FILE__),get_class($this), $width, $height]) . "\n";
         for ($i = 0; $i < $height; $i++) {
-            $this->renderMap[$i] = array_fill(0, $width, new Symbol('.'));
+            $this->renderMap[$i] = array_fill(0, $width, $this->globalConfig->__get('space'));
         }
         parent::render();
         $this->renderBorder();
+        $this->renderBySprites();
         return $this;
     }
 
-    private function renderBorder(): void
+    protected function renderBorder(): void
     {
         $width = $this->getWidth();
         $height = $this->getHeight();
+        //echo implode(",\t", [basename(__FILE__),get_class($this), $width, $height]) . "\n";
         if ($this->__get('borderTop')) {
             for ($i = 0; $i < $width; $i++) {
                 $this->renderMap[0][$i] = $this->globalConfig->lineHorizontal;
@@ -115,10 +134,12 @@ abstract class GlyphBlock extends Glyph
         }
     }
 
-    protected function renderBySprites()
+    protected function renderBySprites(): void
     {
         $width = $this->getWidth();
         $height = $this->getHeight();
+        //echo implode(",\t", [basename(__FILE__),get_class($this), $width, $height]) . "\n";
+        $this->cachedRenderMap = $this->renderMap;
         foreach ($this->renderMap as $y => $line) {
             foreach ($line as $x => $symbol) {
                 $codes = $this->getSprite($x, $y, $width, $height);
@@ -134,12 +155,13 @@ abstract class GlyphBlock extends Glyph
     private function getSprite(int $x, int $y, int $width, int $height): string
     {
         $codes = [
-            $y - 1 >= 0 ? $this->renderMap[$y - 1][$x]->getAlias() : '0',
-            $x - 1 >= 0 ? $this->renderMap[$y][$x - 1]->getAlias() : '0',
-            $this->renderMap[$y][$x]->getAlias(),
-            $x + 1 < $width ? $this->renderMap[$y][$x + 1]->getAlias() : '0',
-            $y + 1 < $height ? $this->renderMap[$y + 1][$x]->getAlias() : '0',
+            isset($this->cachedRenderMap[$y - 1][$x]) ? $this->cachedRenderMap[$y - 1][$x]->getAlias() : '0',
+            isset($this->cachedRenderMap[$y][$x - 1]) ? $this->cachedRenderMap[$y][$x - 1]->getAlias() : '0',
+            isset($this->cachedRenderMap[$y][$x]) ? $this->cachedRenderMap[$y][$x]->getAlias() : '0',
+            isset($this->cachedRenderMap[$y][$x + 1]) ? $this->cachedRenderMap[$y][$x + 1]->getAlias() : '0',
+            isset($this->cachedRenderMap[$y + 1][$x]) ? $this->cachedRenderMap[$y + 1][$x]->getAlias() : '0',
         ];
+        //echo "[$y,$x]:".implode("", $codes)."\t";
         return implode("", $codes);
     }
 
@@ -147,8 +169,10 @@ abstract class GlyphBlock extends Glyph
     {
         switch ($codes) {
             case '00|-|':
+            case '00--|':
                 return $this->globalConfig->cornerLeftTop;
             case '0-|0|':
+            case '0--0|':
                 return $this->globalConfig->cornerRightTop;
             case '|-|00':
                 return $this->globalConfig->cornerRightBottom;

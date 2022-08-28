@@ -3,12 +3,15 @@
 namespace VPA\Console\Glyphs;
 
 use VPA\Console\FrameConfigInterface;
+use VPA\Console\Nodes;
 use VPA\Console\Symbol;
 use VPA\DI\Injectable;
 
 #[Injectable]
 abstract class Glyph
 {
+    use Nodes;
+
     protected array $children = [];
     protected array $config = [];
     protected ?Glyph $parent = null;
@@ -22,7 +25,8 @@ abstract class Glyph
     protected int $Y = 0;
     protected int $offsetX = 0;
     protected int $offsetY = 0;
-    protected bool $rendered = false;
+    protected bool $renderedWidth = false;
+    protected bool $renderedHeight = false;
 
 
     public function __construct(protected FrameConfigInterface $globalConfig)
@@ -146,27 +150,14 @@ abstract class Glyph
     protected function printMap(): void
     {
         echo "Print " . get_class($this) . "\n";
-        echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+        echo "     ";
+        for ($i = 0; $i < 10; $i++) {
+            echo str_pad($i, "10", ".", STR_PAD_RIGHT);
+        }
+        echo "\n";
         foreach ($this->renderMap as $y => $list) {
-            echo str_pad($y,3,'0',STR_PAD_LEFT).": " . implode("", $list) . "\n";
+            echo str_pad($y, 3, '0', STR_PAD_LEFT) . ": " . implode("", $list) . "\n";
         }
-        echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
-    }
-
-    public function getSize(): array
-    {
-        if ($this->rendered) {
-            return [$this->width, $this->height];
-        }
-        foreach ($this->children as $child) {
-            $renderedChild = $child->render();
-        }
-        $this->rendered = true;
-        if (isset($renderedChild)) {
-            $this->width = $renderedChild->getWidthByContent();
-            $this->height = $renderedChild->getHeight();
-        }
-        return [$this->width, $this->height];
     }
 
     public function getWidthByContent(int $endOfPreviousSibling = 0): int
@@ -177,6 +168,16 @@ abstract class Glyph
         }
         return $this->width;
     }
+
+    public function getHeightByContent(int $endOfPreviousSibling = 0): int
+    {
+        $this->Y = $endOfPreviousSibling;
+        foreach ($this->children as $child) {
+            $this->height = $child->getHeight($this->height);
+        }
+        return $this->height;
+    }
+
 
     public function getWidth(): int
     {
@@ -196,19 +197,18 @@ abstract class Glyph
     public function setWidth(int $width): void
     {
         $this->width = $width;
+        $this->renderedWidth = true;
     }
 
     public function getHeight(): int
     {
-        foreach ($this->children as $child) {
-            $this->height = $child->getHeight();
-        }
         return $this->height;
     }
 
     public function setHeight(int $height): void
     {
         $this->height = $height;
+        $this->renderedHeight = true;
     }
 
     public function setParent(Glyph $parent): void
@@ -216,35 +216,9 @@ abstract class Glyph
         $this->parent = $parent;
     }
 
-    public function addTable(array $config = []): Glyph
-    {
-        $table = new Table($this->globalConfig);
-        $table->setConfig(array_merge($table->getConfig(), $config));
-        $this->addChild($table);
-        return $table;
-    }
-
-    public function addDiv(array $config = []): Glyph
-    {
-        $div = new Div($this->globalConfig);
-        $div->setConfig(array_merge($div->getConfig(), $config));
-        $this->addChild($div);
-        return $div;
-    }
-
-    public function addText(array $config = []): Glyph
-    {
-        $text = new Text($this->globalConfig);
-        $text->setConfig(array_merge($text->getConfig(), $config));
-        $this->addChild($text);
-        return $text;
-    }
-
     private function mergeMaps(Glyph $render)
     {
-        var_dump([
-            get_class($render), $render->X, $render->Y
-        ]);
+        //echo implode(",\t", [basename(__FILE__) . ":" . __LINE__,get_class($render) . "\t", $render->Y, $render->X, $render->width, $render->height]) . "\n";
         foreach ($render->renderMap as $y => $line) {
             foreach ($line as $x => $item) {
                 $coordX = $render->X + $this->offsetX + $x;

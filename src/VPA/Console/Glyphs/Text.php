@@ -13,6 +13,7 @@ class Text extends GlyphInline
         $this->text = $text;
         $this->width = strlen($this->text);
         $this->height = 1;
+        $this->render();
         return $this;
     }
 

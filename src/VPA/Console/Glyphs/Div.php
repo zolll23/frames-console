@@ -9,8 +9,8 @@ class Div extends GlyphBlock
     public function render(): Glyph
     {
         parent::render();
-        //$this->printMap();
         $this->renderBySprites();
+        //$this->printMap();
         return $this;
     }
 }
