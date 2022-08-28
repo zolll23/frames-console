@@ -174,6 +174,10 @@ abstract class GlyphBlock extends Glyph
             case '0-|0|':
             case '0--0|':
                 return $this->globalConfig->cornerRightTop;
+            case '|0|-|':
+                return $this->globalConfig->cornerLeftMiddle;
+            case '|-|0|':
+                return $this->globalConfig->cornerRightMiddle;
             case '|-|00':
                 return $this->globalConfig->cornerRightBottom;
             case '|0|-0':
@@ -184,6 +188,10 @@ abstract class GlyphBlock extends Glyph
             case '|---0':
             case '--|-0':
                 return $this->globalConfig->cornerMiddleBottom;
+            case '|-|-|':
+            case '|-c-|':
+            case '|-q-|':
+                return $this->globalConfig->cornerMiddleMiddle;
         }
         return false;
     }

@@ -23,14 +23,4 @@ class Page extends GlyphBlock
             $this->documentWidth = 80;
         }
     }
-
-    public function render(): Glyph
-    {
-        $width = $this->getWidthByContent();
-        $height = $this->getHeightByContent();
-        var_dump(['Page', $this->width, $this->height]);
-        parent::render();
-        //$this->renderBySprites();
-        return $this;
-    }
 }

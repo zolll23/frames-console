@@ -79,25 +79,4 @@ class Table extends GlyphBlock
         $this->appendHeight($this->height);
         return $this->height;
     }
-
-    public function render(): Glyph
-    {
-        $width = $this->getWidthByContent();
-        $height = $this->getHeightByContent();
-        echo implode("\t",['Table', $this->width, $this->height])."\n";
-        foreach ($this->children as $rowIndex => $row) {
-            echo implode("\t",['Row', $row->width, $row->height])."\n";
-            foreach ($row->children as $cell) {
-                echo implode("\t",['Cell', $cell->width, $cell->height])."\n";
-            }
-        }
-        //parent::render();
-        for ($i = 0; $i < $height; $i++) {
-            $this->renderMap[$i] = array_fill(0, $width, $this->globalConfig->__get('space'));
-        }
-        Glyph::render();
-        $this->renderBorder();
-        $this->renderBySprites();
-        return $this;
-    }
 }

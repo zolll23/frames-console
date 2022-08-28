@@ -29,11 +29,4 @@ class Cell extends GlyphBlock
         parent::appendHeight($this->height);
         return $this->height;
     }
-
-    public function render(): Glyph
-    {
-        parent::render();
-        $this->renderBySprites();
-        return $this;
-    }
 }

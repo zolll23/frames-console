@@ -40,8 +40,8 @@ $row1 = $table->addRow();
 $row1->addCell()->setPadding(1, 1, 0, 0)->setBorder(0, 1, 0, 0)
     ->addDiv()->setBorder(1, 1, 1, 1)->addText()->setValue("Tirsf Name!");
 $row1->addCell()->setPadding(1, 1, 0, 0)->setBorder(0, 1, 0, 0)->addText()->setValue("First Name");
-$row1->addCell()->setPadding(1, 1, 0, 0)->setBorder(0, 1, 0, 0)->addText()->setValue("Last Name");
-$row1->addCell()->setPadding(1, 1, 0, 0)->addText()->setValue("Middle Name and long long string with any symbols");
+$row1->addCell()->setPadding(1, 1, 0, 0)->setBorder(0, 1, 0, 0)->addText(['textAlign'=>'center'])->setValue("Last Name");
+$row1->addCell()->setPadding(1, 1, 0, 0)->addText()->setValue("Middle Name and long long string with any symbols and more text for testing of long long lines");
 
 
 $page->display();

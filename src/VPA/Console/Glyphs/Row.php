@@ -32,13 +32,4 @@ class Row extends GlyphBlock
     {
         parent::appendWidth($width);
     }
-
-
-//    public function render(): Glyph
-//    {
-//        parent::render();
-//        //$this->printMap();
-//        $this->renderBySprites();
-//        return $this;
-//    }
 }
