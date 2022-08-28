@@ -29,4 +29,16 @@ class Cell extends GlyphBlock
         parent::appendHeight($this->height);
         return $this->height;
     }
+
+    public function setWidth(int $width): void
+    {
+        parent::setWidth($width);
+        //parent::appendWidth($this->width);
+    }
+
+    public function setHeight(int $height): void
+    {
+        parent::setHeight($height);
+        //parent::appendHeight($height);
+    }
 }

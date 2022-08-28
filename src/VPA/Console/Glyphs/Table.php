@@ -39,6 +39,11 @@ class Table extends GlyphBlock
                 $cell->setWidth($maxCellLengths[$cellIndex]);
                 $cell->setX($offset);
                 $offset += $maxCellLengths[$cellIndex];
+                $nodes = $cell->getChildren();
+                foreach ($nodes as $node) {
+                    echo "Node: {$cell->width}\n";
+                    $node->setWidth($cell->width);
+                }
             }
         }
         $this->renderedWidth = true;

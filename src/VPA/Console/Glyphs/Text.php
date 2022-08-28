@@ -19,17 +19,17 @@ class Text extends GlyphInline
 
     public function render(): GlyphInline
     {
-        switch ($this->__get('textAlign')) {
-            default:
-                $resultString = str_pad($this->text, $this->getWidth(), ' ', STR_PAD_RIGHT);
-                break;
-            case 'right':
-                $resultString = str_pad($this->text, $this->getWidth(), ' ', STR_PAD_LEFT);
-                break;
-            case 'center':
-                $resultString = str_pad($this->text, $this->getWidth(), ' ', STR_PAD_BOTH);
-                break;
-        }
+        var_dump(get_class($this->getParent()));
+        $contentWidth = $this->getParent()->getContentWidth();
+        echo "Text \"{$this->text}\" {$this->__get('textAlign')} {$this->width}/{$contentWidth} render\n";
+        $this->width = $contentWidth;
+        $this->__set('maxWidth', max($this->width, $this->__get('maxWidth')));
+        $padding = match ($this->__get('textAlign')) {
+            default => STR_PAD_RIGHT,
+            'right' => STR_PAD_LEFT,
+            'center' => STR_PAD_BOTH,
+        };
+        $resultString = str_pad($this->text, $this->getWidth(), ' ', $padding);
         $symbols = str_split($resultString);
 
         $this->renderMap = array_chunk(array_map(function ($value) {

@@ -8,9 +8,9 @@ use VPA\Console\Symbol;
 abstract class GlyphBlock extends Glyph
 {
     /**
-     * @var array|mixed
+     * @var mixed
      */
-    private $cachedRenderMap;
+    private int $delta;
 
     public function __construct(protected FrameConfigInterface $globalConfig)
     {
@@ -28,6 +28,25 @@ abstract class GlyphBlock extends Glyph
                 'borderBottom' => 0,
             ]
         );
+        $this->calculateDeltaWidth();
+    }
+
+    public function getContentWidth(): int
+    {
+        return $this->width - $this->delta;
+    }
+
+    public function getContentHeight(): int
+    {
+        return $this->contentHeight;
+    }
+
+    private function calculateDeltaWidth(): void
+    {
+        $this->delta = $this->__get('paddingLeft') +
+            $this->__get('borderLeft') +
+            $this->__get('paddingRight') +
+            $this->__get('borderRight');
     }
 
     public function setPadding(int $paddingLeft, int $paddingRight, int $paddingTop, int $paddingBottom): GlyphBlock
@@ -36,6 +55,7 @@ abstract class GlyphBlock extends Glyph
         $this->__set('paddingLeft', $paddingLeft);
         $this->__set('paddingRight', $paddingRight);
         $this->__set('paddingBottom', $paddingBottom);
+        $this->calculateDeltaWidth();
         return $this;
     }
 
@@ -45,6 +65,7 @@ abstract class GlyphBlock extends Glyph
         $this->__set('borderLeft', $borderLeft);
         $this->__set('borderRight', $borderRight);
         $this->__set('borderBottom', $borderBottom);
+        $this->calculateDeltaWidth();
         return $this;
     }
 
@@ -52,11 +73,9 @@ abstract class GlyphBlock extends Glyph
     public function getWidthByContent(int $endOfPreviousSibling = 0): int
     {
         $this->offsetX = $this->__get('paddingLeft') + $this->__get('borderLeft');
-        $this->width = parent::getWidthByContent($endOfPreviousSibling) +
-            $this->__get('paddingLeft') +
-            $this->__get('borderLeft') +
-            $this->__get('paddingRight') +
-            $this->__get('borderRight');
+        $this->contentWidth = parent::getWidthByContent($endOfPreviousSibling);
+        $this->width = $this->contentWidth + $this->delta;
+            ;
         //echo get_class($this) . " width = " . $this->width . ' offsetX: ' . $this->offsetX . "\n";
         return $this->width;
     }
@@ -64,16 +83,16 @@ abstract class GlyphBlock extends Glyph
     public function appendWidth(int $value): void
     {
         $this->offsetX = $this->__get('paddingLeft') + $this->__get('borderLeft');
-        $this->width = $value +
-            $this->__get('paddingLeft') +
-            $this->__get('borderLeft') +
-            $this->__get('paddingRight') +
-            $this->__get('borderRight');
+        $this->contentWidth = $value;
+
+        $this->width = $value + $this->delta;
+
     }
 
     public function appendHeight(int $value): void
     {
         $this->offsetY = $this->__get('paddingTop') + $this->__get('borderTop');
+        $this->contentHeight = $value;
         $this->height = $value +
             $this->__get('paddingTop') +
             $this->__get('borderTop') +
@@ -85,7 +104,8 @@ abstract class GlyphBlock extends Glyph
     public function getHeightByContent(int $endOfPreviousSibling = 0): int
     {
         $this->offsetY = $this->__get('paddingTop') + $this->__get('borderTop');
-        $this->height = parent::getHeightByContent($endOfPreviousSibling) +
+        $this->contentHeight = parent::getHeightByContent($endOfPreviousSibling);
+        $this->height = $this->contentHeight +
             $this->__get('paddingTop') +
             $this->__get('borderTop') +
             $this->__get('paddingBottom') +
@@ -111,7 +131,6 @@ abstract class GlyphBlock extends Glyph
     {
         $width = $this->getWidth();
         $height = $this->getHeight();
-        //echo implode(",\t", [basename(__FILE__),get_class($this), $width, $height]) . "\n";
         if ($this->__get('borderTop')) {
             for ($i = 0; $i < $width; $i++) {
                 $this->renderMap[0][$i] = $this->globalConfig->lineHorizontal;

@@ -21,12 +21,15 @@ abstract class Glyph
     protected ?bool $isFirstSibling = null;
     protected ?bool $isLastSibling = null;
     protected array $renderMap = [];
+    protected array $cachedRenderMap = [];
     protected int $X = 0;
     protected int $Y = 0;
     protected int $offsetX = 0;
     protected int $offsetY = 0;
     protected bool $renderedWidth = false;
     protected bool $renderedHeight = false;
+    protected int $contentWidth = 0;
+    protected int $contentHeight = 0;
 
 
     public function __construct(protected FrameConfigInterface $globalConfig)
@@ -214,6 +217,11 @@ abstract class Glyph
     public function setParent(Glyph $parent): void
     {
         $this->parent = $parent;
+    }
+
+    public function getParent(): Glyph
+    {
+        return $this->parent;
     }
 
     private function mergeMaps(Glyph $render)
