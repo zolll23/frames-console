@@ -44,9 +44,7 @@ class FrameConsoleConfig implements FrameConfigInterface
 
     public function __get(string $name): Symbol
     {
-        if ($this->$name) {
-            return $this->$name;
-        }
+            return $this->$name ?? $this->space;
     }
 
 

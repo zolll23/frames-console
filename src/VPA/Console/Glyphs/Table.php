@@ -15,7 +15,7 @@ class Table extends GlyphBlock
         return $row;
     }
 
-    public function getWidthByContent(int $endOffsetPreviousSibling = 0): int
+    public function getWidthByContent(int $endOfPreviousSibling = 0): int
     {
         $cellLengths = [];
         foreach ($this->children as $rowIndex => $row) {
@@ -24,10 +24,10 @@ class Table extends GlyphBlock
                 $cellLengths[$cellIndex][$rowIndex] = $cell->getWidthByContent();
             }
         }
-        $this->width = $endOffsetPreviousSibling;
+        $this->width = $endOfPreviousSibling;
         $maxCellLengths = [];
         foreach ($cellLengths as $rowIndex => $cells) {
-            $maxCellLength = max($cells);
+            $maxCellLength = !empty($cells) ? max($cells) : 0;
             $maxCellLengths[$rowIndex] = $maxCellLength;
             $this->width += $maxCellLength;
         }
@@ -41,7 +41,6 @@ class Table extends GlyphBlock
                 $offset += $maxCellLengths[$cellIndex];
                 $nodes = $cell->getChildren();
                 foreach ($nodes as $node) {
-                    echo "Node: {$cell->width}\n";
                     $node->setWidth($cell->width);
                 }
             }

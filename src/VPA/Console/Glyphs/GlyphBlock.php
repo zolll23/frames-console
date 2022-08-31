@@ -86,7 +86,6 @@ abstract class GlyphBlock extends Glyph
         $this->contentWidth = $value;
 
         $this->width = $value + $this->delta;
-
     }
 
     public function appendHeight(int $value): void
@@ -133,22 +132,22 @@ abstract class GlyphBlock extends Glyph
         $height = $this->getHeight();
         if ($this->__get('borderTop')) {
             for ($i = 0; $i < $width; $i++) {
-                $this->renderMap[0][$i] = $this->globalConfig->lineHorizontal;
+                $this->renderMap[0][$i] = $this->globalConfig->__get('lineHorizontal');
             }
         }
         if ($this->__get('borderBottom')) {
             for ($i = 0; $i < $width; $i++) {
-                $this->renderMap[$height - 1][$i] = $this->globalConfig->lineHorizontal;
+                $this->renderMap[$height - 1][$i] = $this->globalConfig->__get('lineHorizontal');
             }
         }
         if ($this->__get('borderLeft')) {
             for ($i = 0; $i < $height; $i++) {
-                $this->renderMap[$i][0] = $this->globalConfig->lineVertical;
+                $this->renderMap[$i][0] = $this->globalConfig->__get('lineVertical');
             }
         }
         if ($this->__get('borderRight')) {
             for ($i = 0; $i < $height; $i++) {
-                $this->renderMap[$i][$width - 1] = $this->globalConfig->lineVertical;
+                $this->renderMap[$i][$width - 1] = $this->globalConfig->__get('lineVertical');
             }
         }
     }
@@ -189,28 +188,28 @@ abstract class GlyphBlock extends Glyph
         switch ($codes) {
             case '00|-|':
             case '00--|':
-                return $this->globalConfig->cornerLeftTop;
+                return $this->globalConfig->__get('cornerLeftTop');
             case '0-|0|':
             case '0--0|':
-                return $this->globalConfig->cornerRightTop;
+                return $this->globalConfig->__get('cornerRightTop');
             case '|0|-|':
-                return $this->globalConfig->cornerLeftMiddle;
+                return $this->globalConfig->__get('cornerLeftMiddle');
             case '|-|0|':
-                return $this->globalConfig->cornerRightMiddle;
+                return $this->globalConfig->__get('cornerRightMiddle');
             case '|-|00':
-                return $this->globalConfig->cornerRightBottom;
+                return $this->globalConfig->__get('cornerRightBottom');
             case '|0|-0':
-                return $this->globalConfig->cornerLeftBottom;
+                return $this->globalConfig->__get('cornerLeftBottom');
             case '0---|':
             case '0-|-|':
-                return $this->globalConfig->cornerMiddleTop;
+                return $this->globalConfig->__get('cornerMiddleTop');
             case '|---0':
             case '--|-0':
-                return $this->globalConfig->cornerMiddleBottom;
+                return $this->globalConfig->__get('cornerMiddleBottom');
             case '|-|-|':
             case '|-c-|':
             case '|-q-|':
-                return $this->globalConfig->cornerMiddleMiddle;
+                return $this->globalConfig->__get('cornerMiddleMiddle');
         }
         return false;
     }

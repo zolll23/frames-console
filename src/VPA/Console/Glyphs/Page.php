@@ -13,11 +13,11 @@ class Page extends GlyphBlock
         parent::__construct($globalConfig);
         try {
             if (PHP_OS_FAMILY === 'Windows') {
-                $response = shell_exec('mode con');
+                $response = shell_exec('mode con') ?? "";
                 $arr = explode("\n", $response);
-                $this->documentWidth = trim(explode(':', $arr[4])[1]);
+                $this->documentWidth = intval(explode(':', $arr[4])[1]);
             } else {
-                $this->documentWidth = exec('tput cols');
+                $this->documentWidth = intval(exec('tput cols'));
             }
         } catch (\Exception $e) {
             $this->documentWidth = 80;

@@ -2,6 +2,7 @@
 <psalm
         errorLevel="1"
         reportMixedIssues="false"
+        runTaintAnalysis="true"
         allowStringToStandInForClass="true"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="https://getpsalm.org/schema/config"
@@ -11,6 +12,7 @@
         <directory name="src" />
         <ignoreFiles>
             <directory name="vendor" />
+            <directory name="tests" />
         </ignoreFiles>
     </projectFiles>
 </psalm>

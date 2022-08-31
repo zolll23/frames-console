@@ -13,12 +13,12 @@ class Row extends GlyphBlock
         return $cell;
     }
 
-    public function getWidthByContent(int $endOffsetPreviousSibling = 0): int
+    public function getWidthByContent(int $endOfPreviousSibling = 0): int
     {
         return $this->width;
     }
 
-    public function getHeightByContent(int $endOffsetPreviousSibling = 0): int
+    public function getHeightByContent(int $endOfPreviousSibling = 0): int
     {
         return $this->height;
     }

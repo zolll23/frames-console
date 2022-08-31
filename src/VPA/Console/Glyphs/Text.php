@@ -19,9 +19,8 @@ class Text extends GlyphInline
 
     public function render(): GlyphInline
     {
-        var_dump(get_class($this->getParent()));
-        $contentWidth = $this->getParent()->getContentWidth();
-        echo "Text \"{$this->text}\" {$this->__get('textAlign')} {$this->width}/{$contentWidth} render\n";
+        $parent = $this->getParent();
+        $contentWidth = $parent && $parent instanceof GlyphBlock ? $parent->getContentWidth() : 0;
         $this->width = $contentWidth;
         $this->__set('maxWidth', max($this->width, $this->__get('maxWidth')));
         $padding = match ($this->__get('textAlign')) {
@@ -37,7 +36,6 @@ class Text extends GlyphInline
         }, $symbols), $this->__get('maxWidth'));
         $this->height = count($this->renderMap);
         $this->width = isset($this->renderMap[0]) ? count($this->renderMap[0]) : $this->__get('maxWidth');
-        //$this->printMap();
         return $this;
     }
 }
