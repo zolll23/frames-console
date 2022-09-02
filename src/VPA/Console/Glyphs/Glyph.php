@@ -3,6 +3,7 @@
 namespace VPA\Console\Glyphs;
 
 use VPA\Console\FrameConfigInterface;
+use VPA\Console\FrameSymbol;
 use VPA\Console\Nodes;
 use VPA\Console\Symbol;
 use VPA\DI\Injectable;
@@ -20,6 +21,7 @@ abstract class Glyph
     protected int $height = 0;
     protected ?bool $isFirstSibling = null;
     protected ?bool $isLastSibling = null;
+    protected bool $isRendered = false;
     protected array $renderMap = [];
     protected array $cachedRenderMap = [];
     protected int $X = 0;
@@ -57,7 +59,11 @@ abstract class Glyph
             return;
         }
         throw new \Exception(
-            sprintf("The property %s not exists for the %s element.", $name, get_class($this))
+            sprintf(
+                "The property %s not exists for the %s element.",
+                $name,
+                get_class($this)
+            )
         );
     }
 
@@ -91,6 +97,10 @@ abstract class Glyph
 
     public function assign(): array
     {
+        if ($this->isRendered) {
+            return $this->renderMap;
+        }
+        $this->isRendered = true;
         $width = $this->getWidth();
         $height = $this->getHeight();
         for ($i = 0; $i < $height; $i++) {
@@ -186,6 +196,11 @@ abstract class Glyph
             $this->height = $child->getHeightByContent();
         }
         return $this->height;
+    }
+
+    protected function gc(string $name): Symbol|FrameSymbol
+    {
+        return $this->globalConfig->__get($name);
     }
 
 

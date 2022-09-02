@@ -37,4 +37,9 @@ class Symbol
     {
         return $this->string === $symbol;
     }
+
+    public function is(Symbol $symbol): bool
+    {
+        return $this->code === $symbol->getCode();
+    }
 }

@@ -89,4 +89,14 @@ class TableTest extends TestCase
         $height = $this->glyph->getHeightByContent();
         $this->assertTrue($height === 2);
     }
+
+    public function testTableWithTwoCells(): void
+    {
+        $row = $this->glyph->addRow();
+        $row->addCell()->setBorder(1, 1, 1, 1)->addText()->setValue('First');
+        $row->addCell()->setBorder(0, 1, 1, 1)->addText()->setValue('Second');
+        $this->glyph->assign();
+        $height = $this->glyph->getHeightByContent();
+        $this->assertTrue($height === 3);
+    }
 }

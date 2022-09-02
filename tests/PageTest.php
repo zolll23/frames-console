@@ -59,6 +59,15 @@ class PageTest extends TestCase
         $this->assertTrue($width === 5);
     }
 
+    public function testGetWidthOfWindow(): void
+    {
+        $text = $this->glyph->addText()->setValue('12345');
+        $width = $this->glyph->getDocumentWidth();
+        $widthFromInside = $text->getDocumentWidth();
+        $this->assertTrue($width > 0);
+        $this->assertTrue($width === $widthFromInside);
+    }
+
     public function testGetHeightByContent(): void
     {
         $this->glyph->addText()->setValue('12345');

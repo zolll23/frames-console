@@ -27,6 +27,29 @@ class DivTest extends TestCase
         $this->assertTrue($this->glyph->__get('borderRight') === 1);
         $this->assertTrue($this->glyph->__get('borderTop') === 1);
         $this->assertTrue($this->glyph->__get('borderBottom') === 1);
+        ob_start();
+        $ret = $this->glyph->assign();
+        ob_end_clean();
+        $this->assertTrue($ret[0][0]->equalsCode('6c'));
+        $this->assertTrue($ret[0][1]->equalsCode('6b'));
+        $this->assertTrue($ret[1][0]->equalsCode('6d'));
+        $this->assertTrue($ret[1][1]->equalsCode('6a'));
+    }
+
+    public function testSetBorderNotEmptyDiv(): void
+    {
+        $this->glyph->setBorder(1, 1, 1, 1)->addText()->setValue('1');
+        $this->assertTrue($this->glyph->__get('borderLeft') === 1);
+        $this->assertTrue($this->glyph->__get('borderRight') === 1);
+        $this->assertTrue($this->glyph->__get('borderTop') === 1);
+        $this->assertTrue($this->glyph->__get('borderBottom') === 1);
+        ob_start();
+        $ret = $this->glyph->assign();
+        ob_end_clean();
+        $this->assertTrue($ret[0][0]->equalsCode('6c'));
+        $this->assertTrue($ret[0][2]->equalsCode('6b'));
+        $this->assertTrue($ret[2][0]->equalsCode('6d'));
+        $this->assertTrue($ret[2][2]->equalsCode('6a'));
     }
 
     public function testSetPadding(): void
@@ -78,6 +101,11 @@ class DivTest extends TestCase
         $this->assertTrue($parent === $this->glyph);
         $children = $this->glyph->getChildren();
         $this->assertTrue(count($children) === 1);
+        $this->glyph->render();
+        $height = $this->glyph->getHeightByContent();
+        $contentHeight = $div->getContentHeight();
+        $this->assertTrue($contentHeight === 1);
+        $this->assertTrue($height === 1);
     }
 
     public function testGetHeightByContent(): void
@@ -94,6 +122,14 @@ class DivTest extends TestCase
         $this->assertTrue($width === 15);
     }
 
+    public function testSetWidthAuto(): void
+    {
+        $this->glyph->__set('width','20');
+        $this->glyph->setWidth(15);
+        $width = $this->glyph->getWidth();
+        $this->assertTrue($width === 20);
+    }
+
     public function testGetHeightByMultilineContent(): void
     {
         $this->glyph->addText(['maxWidth' => 5])->setValue('1234567890');
@@ -104,7 +140,17 @@ class DivTest extends TestCase
     public function testCheckInvalidConfigAttribute(): void
     {
         try {
-            $this->glyph->setConfig(['incorrect_name' => 'eny']);
+            $this->glyph->setConfig(['incorrect_name' => 'any']);
+            $this->assertTrue(false);
+        } catch (\Exception $e) {
+            $this->assertTrue(true);
+            return;
+        }
+    }
+    public function testSetInvalidConfigAttribute(): void
+    {
+        try {
+            $this->glyph->__set('incorrect_name', 'any');
             $this->assertTrue(false);
         } catch (\Exception $e) {
             $this->assertTrue(true);
@@ -122,6 +168,19 @@ class DivTest extends TestCase
         $string = ob_get_clean();
         $this->assertTrue($string === "12345\n");
     }
+
+    public function testDoubleDisplayRender(): void
+    {
+        $config = new FrameConsoleConfig();
+        $root = new Div($config);
+        $root->addDiv()->addText()->setValue('12345');
+        $root->assign();
+        ob_start();
+        $root->display();
+        $string = ob_get_clean();
+        $this->assertTrue($string === "12345\n");
+    }
+
 
     public function testisFirstLastSibling(): void
     {
@@ -141,5 +200,15 @@ class DivTest extends TestCase
         $this->assertTrue($first->__get('paddingLeft') === 2);
         $last->ifLastSibling(['paddingLeft' => 2]);
         $this->assertTrue($last->__get('paddingLeft') === 2);
+    }
+
+    public function testisFirstLastSiblingWithNoParent(): void
+    {
+        $config = new FrameConsoleConfig();
+        $root = new Div($config);
+        $root->ifFirstSibling(['paddingLeft' => 2]);
+        $this->assertTrue($root->__get('paddingLeft') === 0);
+        $root->ifLastSibling(['paddingLeft' => 2]);
+        $this->assertTrue($root->__get('paddingLeft') === 0);
     }
 }
