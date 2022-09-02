@@ -2,3 +2,4 @@ vendor/
 .idea/
 scripts/
 .phpunit.cache/
+.phpunit.result.cache

@@ -43,7 +43,7 @@ $row1 = $table->addRow();
 $row1->addCell()->setPadding(1, 1, 0, 0)->setBorder(0, 1, 0, 0)
     ->addDiv()->setBorder(1, 1, 1, 1)->addText()->setValue("Tirsf Name!");
 $row1->addCell()->setPadding(1, 1, 0, 0)->setBorder(0, 1, 0, 0)
-    ->addText(['textAlign' => 'center'])->setValue("First Name");
+    ->addText(['textAlign' => 'right'])->setValue("First Name");
 $row1->addCell()->setPadding(1, 1, 0, 0)->setBorder(0, 1, 0, 0)
     ->addText(['textAlign' => 'center'])->setValue("Last Name");
 $cell = $row1->addCell()->setPadding(1, 1, 0, 0);

@@ -6,21 +6,23 @@ use VPA\Console\FrameConfigInterface;
 
 class Page extends GlyphBlock
 {
-    protected int $documentWidth = 80;
+    protected int $documentWidth = 0;
 
     public function __construct(protected FrameConfigInterface $globalConfig)
     {
         parent::__construct($globalConfig);
-        try {
-            if (PHP_OS_FAMILY === 'Windows') {
-                $response = shell_exec('mode con') ?? "";
-                $arr = explode("\n", $response);
-                $this->documentWidth = intval(explode(':', $arr[4])[1]);
-            } else {
-                $this->documentWidth = intval(exec('tput cols'));
-            }
-        } catch (\Exception $e) {
-            $this->documentWidth = 80;
-        }
+        $this->documentWidth = (PHP_OS_FAMILY === 'Windows') ? $this-> getDocumentWidthWindows() :
+            $this->getDocumentWidthUnix();
+    }
+
+    private function getDocumentWidthWindows(): int
+    {
+        $arr = explode("\n", shell_exec('mode con') ?? "");
+        return intval(explode(':', $arr[4])[1]);
+    }
+
+    private function getDocumentWidthUnix(): int
+    {
+        return intval(exec('tput cols'));
     }
 }

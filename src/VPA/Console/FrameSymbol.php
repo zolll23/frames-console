@@ -4,8 +4,6 @@
 namespace VPA\Console;
 
 
-use VPA\Console\Symbol;
-
 class FrameSymbol extends Symbol
 {
     public function __construct(protected string $string, private string $alias = '')

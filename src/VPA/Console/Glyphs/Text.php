@@ -2,6 +2,7 @@
 
 namespace VPA\Console\Glyphs;
 
+use VPA\Console\FrameConfigInterface;
 use VPA\Console\Symbol;
 
 class Text extends GlyphInline

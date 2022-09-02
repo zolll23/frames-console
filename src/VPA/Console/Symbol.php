@@ -27,4 +27,14 @@ class Symbol
     {
         return $this->string;
     }
+
+    public function equalsCode(string $hexCode): bool
+    {
+        return $this->code === $hexCode;
+    }
+
+    public function equals(string $symbol): bool
+    {
+        return $this->string === $symbol;
+    }
 }

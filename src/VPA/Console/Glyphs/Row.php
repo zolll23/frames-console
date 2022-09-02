@@ -22,14 +22,4 @@ class Row extends GlyphBlock
     {
         return $this->height;
     }
-
-    public function setHeight(int $height): void
-    {
-        parent::appendHeight($height);
-    }
-
-    public function setWidth(int $width): void
-    {
-        parent::appendWidth($width);
-    }
 }

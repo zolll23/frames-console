@@ -75,8 +75,6 @@ abstract class GlyphBlock extends Glyph
         $this->offsetX = $this->__get('paddingLeft') + $this->__get('borderLeft');
         $this->contentWidth = parent::getWidthByContent($endOfPreviousSibling);
         $this->width = $this->contentWidth + $this->delta;
-            ;
-        //echo get_class($this) . " width = " . $this->width . ' offsetX: ' . $this->offsetX . "\n";
         return $this->width;
     }
 
@@ -116,7 +114,6 @@ abstract class GlyphBlock extends Glyph
     {
         $width = $this->getWidthByContent();
         $height = $this->getHeightByContent();
-        //echo implode(",\t", [basename(__FILE__),get_class($this), $width, $height]) . "\n";
         for ($i = 0; $i < $height; $i++) {
             $this->renderMap[$i] = array_fill(0, $width, $this->globalConfig->__get('space'));
         }
@@ -156,7 +153,6 @@ abstract class GlyphBlock extends Glyph
     {
         $width = $this->getWidth();
         $height = $this->getHeight();
-        //echo implode(",\t", [basename(__FILE__),get_class($this), $width, $height]) . "\n";
         $this->cachedRenderMap = $this->renderMap;
         foreach ($this->renderMap as $y => $line) {
             foreach ($line as $x => $symbol) {
@@ -175,11 +171,10 @@ abstract class GlyphBlock extends Glyph
         $codes = [
             isset($this->cachedRenderMap[$y - 1][$x]) ? $this->cachedRenderMap[$y - 1][$x]->getAlias() : '0',
             isset($this->cachedRenderMap[$y][$x - 1]) ? $this->cachedRenderMap[$y][$x - 1]->getAlias() : '0',
-            isset($this->cachedRenderMap[$y][$x]) ? $this->cachedRenderMap[$y][$x]->getAlias() : '0',
+            isset($this->cachedRenderMap[$y][$x])     ? $this->cachedRenderMap[$y][$x]->getAlias() : '0',
             isset($this->cachedRenderMap[$y][$x + 1]) ? $this->cachedRenderMap[$y][$x + 1]->getAlias() : '0',
             isset($this->cachedRenderMap[$y + 1][$x]) ? $this->cachedRenderMap[$y + 1][$x]->getAlias() : '0',
         ];
-        //echo "[$y,$x]:".implode("", $codes)."\t";
         return implode("", $codes);
     }
 

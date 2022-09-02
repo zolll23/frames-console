@@ -41,6 +41,7 @@ abstract class Glyph
             'paddingRight' => 0,
             'paddingTop' => 0,
             'paddingBottom' => 0,
+            'width' => 'auto',
         ];
     }
 
@@ -65,9 +66,10 @@ abstract class Glyph
         return $this->config[$name] ?? null;
     }
 
-    public function setConfig(array $config): void
+    public function setConfig(array $config): Glyph
     {
-        $this->config = $config;
+        $this->config = array_merge($this->config, $config);
+        return $this;
     }
 
     public function getConfig(): array
@@ -87,14 +89,20 @@ abstract class Glyph
         return $this->children;
     }
 
-    public function display(): void
+    public function assign(): array
     {
         $width = $this->getWidth();
         $height = $this->getHeight();
         for ($i = 0; $i < $height; $i++) {
-            $this->renderMap[$i] = array_fill(0, $width, new Symbol('.'));
+            $this->renderMap[$i] = array_fill(0, $width, $this->globalConfig->__get('space'));
         }
         $this->render();
+        return $this->renderMap;
+    }
+
+    public function display(): void
+    {
+        $this->assign();
         $this->printMap();
     }
 
@@ -166,7 +174,7 @@ abstract class Glyph
     {
         $this->X = $endOfPreviousSibling;
         foreach ($this->children as $child) {
-            $this->width = $child->getWidth($this->width);
+            $this->width = $child->getWidthByContent(0);
         }
         return $this->width;
     }
@@ -175,7 +183,7 @@ abstract class Glyph
     {
         $this->Y = $endOfPreviousSibling;
         foreach ($this->children as $child) {
-            $this->height = $child->getHeight($this->height);
+            $this->height = $child->getHeightByContent();
         }
         return $this->height;
     }
@@ -196,10 +204,16 @@ abstract class Glyph
         $this->Y = $y;
     }
 
-    public function setWidth(int $width): void
+    public function setWidth(int $width): Glyph
     {
-        $this->width = $width;
+        $configWidth = $this->__get('width');
+        if ($configWidth == 'auto') {
+            $this->width = $width;
+        } else {
+            $this->width = intval($configWidth);
+        }
         $this->renderedWidth = true;
+        return $this;
     }
 
     public function getHeight(): int
@@ -207,10 +221,11 @@ abstract class Glyph
         return $this->height;
     }
 
-    public function setHeight(int $height): void
+    public function setHeight(int $height): Glyph
     {
         $this->height = $height;
         $this->renderedHeight = true;
+        return $this;
     }
 
     public function setParent(Glyph $parent): void
