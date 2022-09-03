@@ -1,8 +1,6 @@
 <?php
 
-
 namespace VPA\Console\Glyphs;
-
 
 class Cell extends GlyphBlock
 {

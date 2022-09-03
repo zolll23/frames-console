@@ -10,12 +10,11 @@ class Shell
     public function getDocumentWidthFromOS(): int
     {
         $os = (PHP_OS_FAMILY === 'Windows' ? 'Windows' : isset($_SERVER['TERM'])) ? 'Unix' : 'undefined';
-        $width = match ($os) {
+        return match ($os) {
             'Windows' => $this->getDocumentWidthWindows(),
             'Unix' => $this->getDocumentWidthUnix(),
             default => 80
         };
-        return $width;
     }
 
     /**

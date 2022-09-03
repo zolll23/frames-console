@@ -24,7 +24,7 @@ class FrameConsoleConfig implements FrameConfigInterface
 
     public function __construct(private Shell $shell)
     {
-        $this->space = new Symbol(".");
+        $this->space = new Symbol(" ");
         $this->lineVertical = new FrameSymbol("\x78", "|");
         $this->lineHorizontal = new FrameSymbol("\x71", "-");
         $this->cornerLeftMiddle = new FrameSymbol("\x74", "a");

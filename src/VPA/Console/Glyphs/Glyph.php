@@ -44,6 +44,7 @@ abstract class Glyph
             'paddingTop' => 0,
             'paddingBottom' => 0,
             'width' => 'auto',
+            'maxWidth' => 20,
         ];
     }
 
@@ -226,6 +227,9 @@ abstract class Glyph
             $this->width = $width;
         } else {
             $this->width = intval($configWidth);
+        }
+        foreach ($this->getChildren() as $child) {
+            $child->__set('maxWidth', $width);
         }
         $this->renderedWidth = true;
         return $this;

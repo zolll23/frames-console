@@ -38,6 +38,12 @@ abstract class GlyphBlock extends Glyph
         return $this->width - $this->deltaWidth;
     }
 
+    public function getDeltaWidth(): int
+    {
+        return $this->deltaWidth;
+    }
+
+
     public function getContentHeight(): int
     {
         return $this->height - $this->deltaHeight;
@@ -199,7 +205,7 @@ abstract class GlyphBlock extends Glyph
         return implode("", $codes);
     }
 
-    private function pattern(string $codes): Symbol|bool
+    private function pattern(string $codes): object|bool
     {
         switch ($codes) {
             case '00|-|':
@@ -209,8 +215,10 @@ abstract class GlyphBlock extends Glyph
             case '0--0|':
                 return $this->gc('cornerRightTop');
             case '|0|-|':
+            case '|0|-z':
                 return $this->gc('cornerLeftMiddle');
             case '|-|0|':
+            case '|-|0c':
                 return $this->gc('cornerRightMiddle');
             case '|-|00':
                 return $this->gc('cornerRightBottom');
@@ -227,6 +235,7 @@ abstract class GlyphBlock extends Glyph
             case '|-|-|':
             case '|-c-|':
             case '|-q-|':
+            case '|-x-|':
                 return $this->gc('cornerMiddleMiddle');
         }
         return false;
