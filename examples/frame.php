@@ -5,6 +5,7 @@ use VPA\Console\FrameConsoleConfig;
 use VPA\Console\FrameSimpleConfig;
 use VPA\Console\Glyphs\Page;
 use VPA\Console\Glyphs\Table;
+use VPA\Console\Shell;
 use VPA\DI\Container;
 
 require_once(__DIR__ . '/../vendor/autoload.php');
@@ -14,6 +15,7 @@ require_once(__DIR__ . '/../vendor/autoload.php');
 $di = new Container();
 $di->registerContainers([
     'VPA\Console\FrameConfigInterface' => FrameConsoleConfig::class,
+    'VPA\Shell' => Shell::class,
 ]);
 
 

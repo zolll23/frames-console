@@ -9,15 +9,21 @@ use VPA\Console\FrameConsoleConfig;
 use VPA\Console\Glyphs\Div;
 use VPA\Console\Glyphs\GlyphInline;
 use VPA\Console\Glyphs\Text;
+use VPA\Console\Shell;
 
 class TextTest extends TestCase
 {
     private GlyphInline $glyph;
+    private \PHPUnit\Framework\MockObject\MockObject|Shell $shell;
 
     public function setUp(): void
     {
         parent::setUp();
-        $config = new FrameConsoleConfig();
+        // Mock for Shell
+        $shell = $this->createMock(Shell::class);
+        $shell->method('getDocumentWidthFromOS')->willReturn(256);
+        $this->shell = $shell;
+        $config = new FrameConsoleConfig($shell);
         $this->glyph = new Text($config);
     }
 
@@ -86,7 +92,7 @@ class TextTest extends TestCase
 
     public function testSetAlignRight(): void
     {
-        $config = new FrameConsoleConfig();
+        $config = new FrameConsoleConfig($this->shell);
         $div = new Div($config);
         $div->setWidth(20);
         $div->addText()->setAlign('right')->setValue('1234567890');
@@ -96,7 +102,7 @@ class TextTest extends TestCase
 
     public function testSetAlignCenter(): void
     {
-        $config = new FrameConsoleConfig();
+        $config = new FrameConsoleConfig($this->shell);
         $div = new Div($config);
         $div->setWidth(5);
         $div->addText()->setAlign('center')->setValue('123');

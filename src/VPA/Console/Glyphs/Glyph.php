@@ -198,7 +198,7 @@ abstract class Glyph
         return $this->height;
     }
 
-    protected function gc(string $name): Symbol|FrameSymbol
+    protected function gc(string $name): object
     {
         return $this->globalConfig->__get($name);
     }

@@ -9,7 +9,7 @@ use VPA\Console\FrameConsoleConfig;
 use VPA\Console\Glyphs\Div;
 use VPA\Console\Glyphs\GlyphBlock;
 use VPA\Console\Glyphs\Table;
-use VPA\Console\Glyphs\Text;
+use VPA\Console\Shell;
 
 class TableTest extends TestCase
 {
@@ -18,13 +18,15 @@ class TableTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $config = new FrameConsoleConfig();
+        $this->shell = $this->createMock(Shell::class);
+        $this->shell->method('getDocumentWidthFromOS')->willReturn(256);
+        $config = new FrameConsoleConfig($this->shell);
         $this->glyph = new Table($config);
     }
 
     public function testAddTable(): void
     {
-        $config = new FrameConsoleConfig();
+        $config = new FrameConsoleConfig($this->shell);
         $div = new Div($config);
         $table = $div->addTable();
         $width = $table->getWidthByContent();

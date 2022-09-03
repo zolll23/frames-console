@@ -10,15 +10,22 @@ use PHPUnit\Framework\TestCase;
 use VPA\Console\FrameConsoleConfig;
 use VPA\Console\Glyphs\Div;
 use VPA\Console\Glyphs\GlyphBlock;
+use VPA\Console\Shell;
 
 class DivTest extends TestCase
 {
     private GlyphBlock $glyph;
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|Shell
+     */
+    private \PHPUnit\Framework\MockObject\MockObject|Shell $shell;
 
     public function setUp(): void
     {
         parent::setUp();
-        $config = new FrameConsoleConfig();
+        $this->shell = $this->createMock(Shell::class);
+        $this->shell->method('getDocumentWidthFromOS')->willReturn(256);
+        $config = new FrameConsoleConfig($this->shell);
         $this->glyph = new Div($config);
     }
 
@@ -162,7 +169,7 @@ class DivTest extends TestCase
 
     public function testDisplay(): void
     {
-        $config = new FrameConsoleConfig();
+        $config = new FrameConsoleConfig($this->shell);
         $root = new Div($config);
         $root->addDiv()->addText()->setValue('12345');
         ob_start();
@@ -173,7 +180,7 @@ class DivTest extends TestCase
 
     public function testDoubleDisplayRender(): void
     {
-        $config = new FrameConsoleConfig();
+        $config = new FrameConsoleConfig($this->shell);
         $root = new Div($config);
         $root->addDiv()->addText()->setValue('12345');
         $root->assign();
@@ -186,7 +193,7 @@ class DivTest extends TestCase
 
     public function testisFirstLastSibling(): void
     {
-        $config = new FrameConsoleConfig();
+        $config = new FrameConsoleConfig($this->shell);
         $root = new Div($config);
         $first = $root->addDiv();
         $middle = $root->addDiv();
@@ -206,7 +213,7 @@ class DivTest extends TestCase
 
     public function testisFirstLastSiblingWithNoParent(): void
     {
-        $config = new FrameConsoleConfig();
+        $config = new FrameConsoleConfig($this->shell);
         $root = new Div($config);
         $root->ifFirstSibling(['paddingLeft' => 2]);
         $this->assertTrue($root->__get('paddingLeft') === 0);

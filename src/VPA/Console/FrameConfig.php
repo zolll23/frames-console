@@ -20,7 +20,7 @@ class FrameConfig implements FrameConfigInterface
     private Symbol $cornerMiddleMiddle;
 
 
-    public function __construct()
+    public function __construct(private Shell $shell)
     {
         $this->space = new Symbol(".");
         $this->lineVertical = new Symbol("|");

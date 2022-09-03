@@ -20,12 +20,9 @@ class FrameConsoleConfig implements FrameConfigInterface
     private FrameSymbol $cornerLeftMiddle;
     private FrameSymbol $cornerRightMiddle;
     private FrameSymbol $cornerMiddleMiddle;
-    /**
-     * @var Symbol
-     */
     private Symbol $space;
 
-    public function __construct()
+    public function __construct(private Shell $shell)
     {
         $this->space = new Symbol(".");
         $this->lineVertical = new FrameSymbol("\x78", "|");
@@ -42,7 +39,7 @@ class FrameConsoleConfig implements FrameConfigInterface
         $this->cornerMiddleBottom = new FrameSymbol("\x76", "x");
     }
 
-    public function __get(string $name): Symbol
+    public function __get(string $name): object
     {
             return $this->$name ?? $this->space;
     }

@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use VPA\Console\FrameConsoleConfig;
 use VPA\Console\Glyphs\GlyphBlock;
 use VPA\Console\Glyphs\Page;
+use VPA\Console\Shell;
 
 class PageTest extends TestCase
 {
@@ -16,7 +17,10 @@ class PageTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $config = new FrameConsoleConfig();
+        // Mock for Shell
+        $shell = $this->createMock(Shell::class);
+        $shell->method('getDocumentWidthFromOS')->willReturn(256);
+        $config = new FrameConsoleConfig($shell);
         $this->glyph = new Page($config);
     }
 
