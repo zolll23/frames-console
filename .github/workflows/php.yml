@@ -18,7 +18,7 @@ jobs:
         env:
           TEST_NAME: Frames
         with:
-          bootstrap: ../vendor/autoload.php
+          bootstrap: vendor/autoload.php
           configuration: phpunit.xml
           args: --coverage-text
           php_version: "8.0"
