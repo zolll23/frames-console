@@ -6,7 +6,7 @@ use VPA\Console\FrameConfigInterface;
 
 class Page extends GlyphBlock
 {
-    protected int $documentWidth = 0;
+    protected int $documentWidth = 80;
 
     public function __construct(protected FrameConfigInterface $globalConfig)
     {
