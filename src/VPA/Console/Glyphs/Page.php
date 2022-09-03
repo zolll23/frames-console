@@ -15,6 +15,17 @@ class Page extends GlyphBlock
         $this->documentWidth = $this->gc('shell')->getDocumentWidthFromOS();
     }
 
+    public function getDocumentWidth(): int
+    {
+        return $this->documentWidth;
+    }
+
+    public function getWidthByContent(int $endOfPreviousSibling = 0): int
+    {
+        $this->width = $this->documentWidth;
+        return $this->width;
+    }
+
     public function getHeightByContent(int $endOfPreviousSibling = 0): int
     {
         $this->Y = $endOfPreviousSibling;

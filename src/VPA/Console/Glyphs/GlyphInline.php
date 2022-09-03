@@ -11,6 +11,7 @@ abstract class GlyphInline extends Glyph
         parent::__construct($globalConfig);
         $this->setConfig([
                 'textAlign' => 'left',
+                'maxWidth' => 80,
             ]);
     }
 

@@ -44,7 +44,7 @@ abstract class Glyph
             'paddingTop' => 0,
             'paddingBottom' => 0,
             'width' => 'auto',
-            'maxWidth' => 20,
+            'maxWidth' => 100,
         ];
     }
 
