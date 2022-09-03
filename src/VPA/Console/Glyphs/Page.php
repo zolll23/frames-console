@@ -3,7 +3,6 @@
 namespace VPA\Console\Glyphs;
 
 use VPA\Console\FrameConfigInterface;
-use VPA\Console\Shell;
 
 class Page extends GlyphBlock
 {
@@ -22,7 +21,13 @@ class Page extends GlyphBlock
 
     public function getWidthByContent(int $endOfPreviousSibling = 0): int
     {
-        $this->width = $this->documentWidth;
+        $this->offsetX = $this->__get('paddingLeft') + $this->__get('borderLeft');
+        $this->contentWidth = 0;
+        foreach ($this->getChildren() as $child) {
+            $childWidth = $child->getWidthByContent();
+            $this->contentWidth = ($childWidth > $this->contentWidth) ? $childWidth : $this->contentWidth;
+        }
+        $this->width = $this->contentWidth + $this->getDeltaWidth();
         return $this->width;
     }
 
