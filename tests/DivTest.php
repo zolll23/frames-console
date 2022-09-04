@@ -36,6 +36,8 @@ class DivTest extends TestCase
         $this->assertTrue($this->glyph->__get('borderRight') === 1);
         $this->assertTrue($this->glyph->__get('borderTop') === 1);
         $this->assertTrue($this->glyph->__get('borderBottom') === 1);
+        $deltaHeight = $this->glyph->getDeltaHeight();
+        $deltaWidth = $this->glyph->getDeltaWidth();
         ob_start();
         $ret = $this->glyph->assign();
         ob_end_clean();
@@ -43,6 +45,8 @@ class DivTest extends TestCase
         $this->assertTrue($ret[0][1]->equalsCode('6b'));
         $this->assertTrue($ret[1][0]->equalsCode('6d'));
         $this->assertTrue($ret[1][1]->equalsCode('6a'));
+        $this->assertTrue($deltaHeight === 2);
+        $this->assertTrue($deltaWidth === 2);
     }
 
     public function testSetBorderNotEmptyDiv(): void
@@ -70,6 +74,12 @@ class DivTest extends TestCase
         $this->assertTrue($this->glyph->__get('paddingBottom') === 1);
     }
 
+    public function testGetConfig(): void
+    {
+        $config = $this->glyph->getConfig();
+        $this->assertTrue(is_array($config) && isset($config['paddingLeft']));
+    }
+
     public function testGetWidthByZeroContent(): void
     {
         $width = $this->glyph->getWidthByContent();
@@ -79,12 +89,6 @@ class DivTest extends TestCase
     public function testIssetConfigName(): void
     {
         $this->assertTrue($this->glyph->__isset('paddingLeft'));
-    }
-
-    public function testGetConfig(): void
-    {
-        $config = $this->glyph->getConfig();
-        $this->assertTrue(is_array($config) && isset($config['paddingLeft']));
     }
 
     public function testGetHeightByZeroContent(): void
@@ -133,7 +137,7 @@ class DivTest extends TestCase
 
     public function testSetWidthAuto(): void
     {
-        $this->glyph->__set('width','20');
+        $this->glyph->__set('width', '20');
         $this->glyph->setWidth(15);
         $width = $this->glyph->getWidth();
         $this->assertTrue($width === 20);
@@ -156,6 +160,7 @@ class DivTest extends TestCase
             return;
         }
     }
+
     public function testSetInvalidConfigAttribute(): void
     {
         try {

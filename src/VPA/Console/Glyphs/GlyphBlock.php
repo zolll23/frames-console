@@ -43,6 +43,11 @@ abstract class GlyphBlock extends Glyph
         return $this->deltaWidth;
     }
 
+    public function getDeltaHeight(): int
+    {
+        return $this->deltaHeight;
+    }
+
 
     public function getContentHeight(): int
     {
@@ -87,15 +92,6 @@ abstract class GlyphBlock extends Glyph
         return $this;
     }
 
-
-    public function getWidthByContent(int $endOfPreviousSibling = 0): int
-    {
-        $this->offsetX = $this->__get('paddingLeft') + $this->__get('borderLeft');
-        $this->contentWidth = parent::getWidthByContent($endOfPreviousSibling);
-        $this->width = $this->contentWidth + $this->deltaWidth;
-        return $this->width;
-    }
-
     public function appendWidth(int $value): void
     {
         $this->offsetX = $this->__get('paddingLeft') + $this->__get('borderLeft');
@@ -110,16 +106,40 @@ abstract class GlyphBlock extends Glyph
         $this->height = $value + $this->deltaHeight;
     }
 
+    public function getWidthByContent(int $endOfPreviousSibling = 0): int
+    {
+        if ($this->renderedWidth) {
+            return $this->width;
+        }
+        $this->offsetX = $this->__get('paddingLeft') + $this->__get('borderLeft');
+        $this->setX($endOfPreviousSibling);
+        $this->contentWidth = 0;
+        foreach ($this->getChildren() as $child) {
+            $childWidth = $child->getWidthByContent();
+            $this->contentWidth = ($childWidth > $this->contentWidth) ? $childWidth : $this->contentWidth;
+        }
+        $this->width = $this->contentWidth + $this->getDeltaWidth();
+        $this->renderedWidth = true;
+        return $this->width;
+    }
 
     public function getHeightByContent(int $endOfPreviousSibling = 0): int
     {
-        $this->offsetY = $this->__get('paddingTop') + $this->__get('borderTop');
-        $this->contentHeight = parent::getHeightByContent($endOfPreviousSibling);
-        $this->height = $this->contentHeight +
-            $this->__get('paddingTop') +
-            $this->__get('borderTop') +
-            $this->__get('paddingBottom') +
-            $this->__get('borderBottom');
+        if ($this->renderedHeight) {
+            return $this->height;
+        }
+        $deltaTop = $this->__get('paddingTop') + $this->__get('borderTop');
+        $this->setY($endOfPreviousSibling);
+        $this->offsetY = $deltaTop;
+        $this->height = 0;
+        $offset = 0;
+        foreach ($this->children as $child) {
+            $height = $child->getHeightByContent($offset);
+            $offset += $height;
+            $this->contentHeight = $offset;
+        }
+        $this->height = $this->contentHeight + $this->getDeltaHeight();
+        $this->renderedHeight = true;
         return $this->height;
     }
 
