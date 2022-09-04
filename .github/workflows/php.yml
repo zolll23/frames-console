@@ -16,6 +16,7 @@ jobs:
       - name: PHPUnit Tests
         uses: php-actions/phpunit@v3
         env:
+          XDEBUG_MODE: coverage
           TEST_NAME: Frames
         with:
           php_extensions: xdebug
