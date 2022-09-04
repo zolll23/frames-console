@@ -62,7 +62,7 @@ class Table extends GlyphBlock
                 $cellHeights[$rowIndex][$cellIndex] = $cell->getHeightByContent();
             }
         }
-        if (min($countCells) != max($countCells)) {
+        if (!empty($countCells) && min($countCells) != max($countCells)) {
             throw new \RuntimeException("Number of cells in rows does not match");
         }
         $this->height = $endOfPreviousSibling;
