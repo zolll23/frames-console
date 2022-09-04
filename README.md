@@ -1,5 +1,7 @@
 **Frames-console**
 
+[![Latest Stable Version](http://poser.pugx.org/vpa/frames-console/v)](https://packagist.org/packages/vpa/frames-console) [![Total Downloads](http://poser.pugx.org/vpa/frames-console/downloads)](https://packagist.org/packages/vpa/frames-console) [![Latest Unstable Version](http://poser.pugx.org/vpa/frames-console/v/unstable)](https://packagist.org/packages/vpa/frames-console) [![License](http://poser.pugx.org/vpa/frames-console/license)](https://packagist.org/packages/vpa/frames-console) [![PHP Version Require](http://poser.pugx.org/vpa/frames-console/require/php)](https://packagist.org/packages/vpa/frames-console)
+
 A flexible set of components that allow you to frame various content in the console. Supports the display of text, block elements and tables, including nested ones.
 
 **Install**
