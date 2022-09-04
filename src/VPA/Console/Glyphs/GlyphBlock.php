@@ -158,20 +158,36 @@ abstract class GlyphBlock extends Glyph
 
     protected function renderBorder(): void
     {
-        $width = $this->getWidth();
-        $height = $this->getHeight();
+        $this->renderBorderTop();
+        $this->renderBorderBottom();
+        $this->renderBorderLeft();
+        $this->renderBorderRight();
+    }
+
+    private function renderBorderTop(): void
+    {
         if ($this->__get('borderTop')) {
-            for ($i = 0; $i < $width; $i++) {
+            for ($i = 0; $i < $this->getWidth(); $i++) {
                 $this->renderMap[0][$i] = $this->gc('lineHorizontal');
             }
         }
+    }
+
+    private function renderBorderBottom()
+    {
+        $height = $this->getHeight();
         if ($this->__get('borderBottom')) {
-            for ($i = 0; $i < $width; $i++) {
+            for ($i = 0; $i < $this->getWidth(); $i++) {
                 $this->renderMap[$height - 1][$i] = $this->gc('lineHorizontal');
             }
         }
+    }
+
+    private function renderBorderLeft()
+    {
+        $height = $this->getHeight();
         if ($this->__get('borderLeft')) {
-            for ($i = 0; $i < $height; $i++) {
+            for ($i = 0; $i < $this->getWidth(); $i++) {
                 if ($i == 0 && $this->renderMap[$i][0]->is($this->gc('lineHorizontal'))) {
                     $this->renderMap[$i][0] = $this->gc('cornerLeftTop');
                 } elseif ($i == $height - 1 && $this->renderMap[$i][0]->is($this->gc('lineHorizontal'))) {
@@ -181,6 +197,12 @@ abstract class GlyphBlock extends Glyph
                 }
             }
         }
+    }
+
+    private function renderBorderRight(): void
+    {
+        $width = $this->getWidth();
+        $height = $this->getHeight();
         if ($this->__get('borderRight')) {
             for ($i = 0; $i < $height; $i++) {
                 if ($i == 0 && $this->renderMap[$i][$width - 1]->is($this->gc('lineHorizontal'))) {
@@ -199,12 +221,10 @@ abstract class GlyphBlock extends Glyph
 
     protected function renderBySprites(): void
     {
-        $width = $this->getWidth();
-        $height = $this->getHeight();
         $this->cachedRenderMap = $this->renderMap;
         foreach ($this->renderMap as $y => $line) {
             foreach ($line as $x => $symbol) {
-                $codes = $this->getSprite($x, $y, $width, $height);
+                $codes = $this->getSprite($x, $y);
                 $newSymbol = $this->pattern($codes);
                 if ($newSymbol) {
                     $this->renderMap[$y][$x] = $newSymbol;
@@ -213,7 +233,7 @@ abstract class GlyphBlock extends Glyph
         }
     }
 
-    private function getSprite(int $x, int $y, int $width, int $height): string
+    private function getSprite(int $x, int $y): string
     {
         $codes = [
             isset($this->cachedRenderMap[$y - 1][$x]) ? $this->cachedRenderMap[$y - 1][$x]->getAlias() : '0',
@@ -260,4 +280,7 @@ abstract class GlyphBlock extends Glyph
         }
         return false;
     }
+
+
+
 }
