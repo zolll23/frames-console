@@ -62,7 +62,7 @@ You can see:
 
 ![Screenshot of Text example](docs/text.png)
 
-Text element supports attribute __textAlign__: left (default), center, right.
+Text element supports the attribute __textAlign__: left (default), center, right.
 
 Example:
 ```
