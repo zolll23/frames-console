@@ -26,17 +26,5 @@ $div2->addText()->setValue("Line 1\nLine 2\nLine 3");
 
 $page->display();
 
-foreach ($page->getChildren() as $child) {
-    printf(
-        "%s: %d+%d+%d, %d+%d+%d\n",
-        get_class($child),
-        $child->getWidth(),
-        $child->offsetX,
-        $child->X,
-        $child->getHeight(),
-        $child->offsetY,
-        $child->Y
-    );
-}
 // Padding bottom for demo
 echo str_repeat("\n", 5);
