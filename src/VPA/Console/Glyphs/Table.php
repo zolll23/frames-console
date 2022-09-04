@@ -52,13 +52,18 @@ class Table extends GlyphBlock
 
     public function getHeightByContent(int $endOfPreviousSibling = 0): int
     {
+        $countCells = [];
         $cellHeights = [];
         // Find the height of all cells
         foreach ($this->children as $rowIndex => $row) {
             $cells = $row->getChildren();
+            $countCells[] = count($cells);
             foreach ($cells as $cellIndex => $cell) {
                 $cellHeights[$rowIndex][$cellIndex] = $cell->getHeightByContent();
             }
+        }
+        if (min($countCells) != max($countCells)) {
+            throw new \RuntimeException("Number of cells in rows does not match");
         }
         $this->height = $endOfPreviousSibling;
         $maxCellHeights = [];
