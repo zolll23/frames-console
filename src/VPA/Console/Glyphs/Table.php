@@ -3,7 +3,6 @@
 namespace VPA\Console\Glyphs;
 
 
-use VPA\Console\Symbol;
 
 class Table extends GlyphBlock
 {
