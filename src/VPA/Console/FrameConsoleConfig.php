@@ -1,8 +1,10 @@
 <?php
 
+/**
+ *  Symbols for frames take from article https://en.wikipedia.org/wiki/Box-drawing_character [Unix, CP/M, BBS]
+ */
 
 namespace VPA\Console;
-
 
 use VPA\DI\Injectable;
 
@@ -43,6 +45,4 @@ class FrameConsoleConfig implements FrameConfigInterface
     {
             return $this->$name ?? $this->space;
     }
-
-
 }
