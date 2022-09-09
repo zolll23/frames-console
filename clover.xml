@@ -1,6 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1662367421">
-  <project timestamp="1662367421">
+<coverage generated="1662765272">
+  <project timestamp="1662765272">
+    <file name="/var/code/src/VPA/Console/Components/Table1D.php">
+      <class name="VPA\Console\Components\Table1D" namespace="global">
+        <metrics complexity="19" methods="5" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="80" coveredstatements="0" elements="85" coveredelements="0"/>
+      </class>
+      <line num="23" type="method" name="__construct" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="25" type="stmt" count="0"/>
+      <line num="26" type="stmt" count="0"/>
+      <line num="27" type="stmt" count="0"/>
+      <line num="29" type="stmt" count="0"/>
+      <line num="37" type="stmt" count="0"/>
+      <line num="40" type="method" name="setHeader" visibility="public" complexity="3" crap="12" count="0"/>
+      <line num="42" type="stmt" count="0"/>
+      <line num="43" type="stmt" count="0"/>
+      <line num="44" type="stmt" count="0"/>
+      <line num="45" type="stmt" count="0"/>
+      <line num="46" type="stmt" count="0"/>
+      <line num="48" type="stmt" count="0"/>
+      <line num="49" type="stmt" count="0"/>
+      <line num="50" type="stmt" count="0"/>
+      <line num="53" type="method" name="getAutoColumnsNum" visibility="private" complexity="2" crap="6" count="0"/>
+      <line num="55" type="stmt" count="0"/>
+      <line num="56" type="stmt" count="0"/>
+      <line num="57" type="stmt" count="0"/>
+      <line num="58" type="stmt" count="0"/>
+      <line num="59" type="stmt" count="0"/>
+      <line num="60" type="stmt" count="0"/>
+      <line num="61" type="stmt" count="0"/>
+      <line num="63" type="stmt" count="0"/>
+      <line num="64" type="stmt" count="0"/>
+      <line num="66" type="stmt" count="0"/>
+      <line num="67" type="stmt" count="0"/>
+      <line num="68" type="stmt" count="0"/>
+      <line num="69" type="stmt" count="0"/>
+      <line num="70" type="stmt" count="0"/>
+      <line num="71" type="stmt" count="0"/>
+      <line num="72" type="stmt" count="0"/>
+      <line num="73" type="stmt" count="0"/>
+      <line num="74" type="stmt" count="0"/>
+      <line num="75" type="stmt" count="0"/>
+      <line num="76" type="stmt" count="0"/>
+      <line num="78" type="stmt" count="0"/>
+      <line num="81" type="method" name="output" visibility="public" complexity="7" crap="56" count="0"/>
+      <line num="83" type="stmt" count="0"/>
+      <line num="84" type="stmt" count="0"/>
+      <line num="85" type="stmt" count="0"/>
+      <line num="86" type="stmt" count="0"/>
+      <line num="88" type="stmt" count="0"/>
+      <line num="90" type="stmt" count="0"/>
+      <line num="91" type="stmt" count="0"/>
+      <line num="92" type="stmt" count="0"/>
+      <line num="93" type="stmt" count="0"/>
+      <line num="94" type="stmt" count="0"/>
+      <line num="95" type="stmt" count="0"/>
+      <line num="96" type="stmt" count="0"/>
+      <line num="97" type="stmt" count="0"/>
+      <line num="98" type="stmt" count="0"/>
+      <line num="99" type="stmt" count="0"/>
+      <line num="100" type="stmt" count="0"/>
+      <line num="103" type="stmt" count="0"/>
+      <line num="104" type="stmt" count="0"/>
+      <line num="105" type="stmt" count="0"/>
+      <line num="106" type="stmt" count="0"/>
+      <line num="109" type="stmt" count="0"/>
+      <line num="110" type="stmt" count="0"/>
+      <line num="112" type="stmt" count="0"/>
+      <line num="113" type="stmt" count="0"/>
+      <line num="114" type="stmt" count="0"/>
+      <line num="115" type="stmt" count="0"/>
+      <line num="116" type="stmt" count="0"/>
+      <line num="117" type="stmt" count="0"/>
+      <line num="119" type="stmt" count="0"/>
+      <line num="124" type="stmt" count="0"/>
+      <line num="125" type="stmt" count="0"/>
+      <line num="128" type="method" name="addCells" visibility="private" complexity="6" crap="42" count="0"/>
+      <line num="137" type="stmt" count="0"/>
+      <line num="138" type="stmt" count="0"/>
+      <line num="139" type="stmt" count="0"/>
+      <line num="140" type="stmt" count="0"/>
+      <line num="141" type="stmt" count="0"/>
+      <line num="142" type="stmt" count="0"/>
+      <line num="143" type="stmt" count="0"/>
+      <line num="144" type="stmt" count="0"/>
+      <line num="145" type="stmt" count="0"/>
+      <line num="146" type="stmt" count="0"/>
+      <line num="147" type="stmt" count="0"/>
+      <line num="148" type="stmt" count="0"/>
+      <line num="149" type="stmt" count="0"/>
+      <line num="150" type="stmt" count="0"/>
+      <metrics loc="153" ncloc="153" classes="1" methods="5" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="80" coveredstatements="0" elements="85" coveredelements="0"/>
+    </file>
     <file name="/var/code/src/VPA/Console/FrameConfig.php">
       <class name="VPA\Console\FrameConfig" namespace="global">
         <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="14" coveredstatements="14" elements="16" coveredelements="16"/>
@@ -29,22 +119,22 @@
       <class name="VPA\Console\FrameConsoleConfig" namespace="global">
         <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="14" coveredstatements="14" elements="16" coveredelements="16"/>
       </class>
-      <line num="25" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="47"/>
-      <line num="27" type="stmt" count="47"/>
-      <line num="28" type="stmt" count="47"/>
+      <line num="27" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="47"/>
       <line num="29" type="stmt" count="47"/>
       <line num="30" type="stmt" count="47"/>
       <line num="31" type="stmt" count="47"/>
       <line num="32" type="stmt" count="47"/>
+      <line num="33" type="stmt" count="47"/>
       <line num="34" type="stmt" count="47"/>
-      <line num="35" type="stmt" count="47"/>
       <line num="36" type="stmt" count="47"/>
       <line num="37" type="stmt" count="47"/>
       <line num="38" type="stmt" count="47"/>
       <line num="39" type="stmt" count="47"/>
-      <line num="42" type="method" name="__get" visibility="public" complexity="1" crap="1" count="18"/>
-      <line num="44" type="stmt" count="18"/>
-      <metrics loc="48" ncloc="48" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="14" coveredstatements="14" elements="16" coveredelements="16"/>
+      <line num="40" type="stmt" count="47"/>
+      <line num="41" type="stmt" count="47"/>
+      <line num="44" type="method" name="__get" visibility="public" complexity="1" crap="1" count="18"/>
+      <line num="46" type="stmt" count="18"/>
+      <metrics loc="49" ncloc="46" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="14" coveredstatements="14" elements="16" coveredelements="16"/>
     </file>
     <file name="/var/code/src/VPA/Console/FrameSymbol.php">
       <class name="VPA\Console\FrameSymbol" namespace="global">
@@ -60,23 +150,26 @@
     </file>
     <file name="/var/code/src/VPA/Console/Glyphs/Cell.php">
       <class name="VPA\Console\Glyphs\Cell" namespace="global">
-        <metrics complexity="6" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="12" elements="14" coveredelements="14"/>
+        <metrics complexity="6" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="15" coveredstatements="15" elements="17" coveredelements="17"/>
       </class>
       <line num="7" type="method" name="getWidthByContent" visibility="public" complexity="3" crap="3" count="3"/>
       <line num="9" type="stmt" count="3"/>
-      <line num="10" type="stmt" count="2"/>
-      <line num="12" type="stmt" count="3"/>
-      <line num="13" type="stmt" count="3"/>
+      <line num="10" type="stmt" count="3"/>
+      <line num="11" type="stmt" count="2"/>
+      <line num="14" type="stmt" count="3"/>
       <line num="15" type="stmt" count="3"/>
-      <line num="16" type="stmt" count="3"/>
-      <line num="19" type="method" name="getHeightByContent" visibility="public" complexity="3" crap="3" count="4"/>
-      <line num="21" type="stmt" count="4"/>
-      <line num="22" type="stmt" count="2"/>
+      <line num="17" type="stmt" count="3"/>
+      <line num="18" type="stmt" count="3"/>
+      <line num="21" type="method" name="getHeightByContent" visibility="public" complexity="3" crap="3" count="4"/>
+      <line num="23" type="stmt" count="4"/>
       <line num="24" type="stmt" count="4"/>
       <line num="25" type="stmt" count="4"/>
-      <line num="27" type="stmt" count="4"/>
+      <line num="26" type="stmt" count="2"/>
       <line num="28" type="stmt" count="4"/>
-      <metrics loc="31" ncloc="31" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="12" elements="14" coveredelements="14"/>
+      <line num="29" type="stmt" count="4"/>
+      <line num="31" type="stmt" count="4"/>
+      <line num="32" type="stmt" count="4"/>
+      <metrics loc="35" ncloc="35" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="15" coveredstatements="15" elements="17" coveredelements="17"/>
     </file>
     <file name="/var/code/src/VPA/Console/Glyphs/Div.php">
       <class name="VPA\Console\Glyphs\Div" namespace="global">
@@ -205,7 +298,7 @@
     </file>
     <file name="/var/code/src/VPA/Console/Glyphs/GlyphBlock.php">
       <class name="VPA\Console\Glyphs\GlyphBlock" namespace="global">
-        <metrics complexity="72" methods="22" coveredmethods="21" conditionals="0" coveredconditionals="0" statements="146" coveredstatements="139" elements="168" coveredelements="160"/>
+        <metrics complexity="56" methods="23" coveredmethods="23" conditionals="0" coveredconditionals="0" statements="120" coveredstatements="120" elements="143" coveredelements="143"/>
       </class>
       <line num="16" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="38"/>
       <line num="18" type="stmt" count="38"/>
@@ -335,46 +428,21 @@
       <line num="229" type="stmt" count="8"/>
       <line num="230" type="stmt" count="1"/>
       <line num="236" type="method" name="getSprite" visibility="private" complexity="6" crap="6" count="8"/>
-      <line num="238" type="stmt" count="8"/>
-      <line num="239" type="stmt" count="8"/>
-      <line num="240" type="stmt" count="8"/>
-      <line num="241" type="stmt" count="8"/>
-      <line num="242" type="stmt" count="8"/>
-      <line num="243" type="stmt" count="8"/>
       <line num="245" type="stmt" count="8"/>
-      <line num="248" type="method" name="pattern" visibility="private" complexity="21" crap="26.08" count="8"/>
+      <line num="246" type="stmt" count="8"/>
+      <line num="247" type="stmt" count="8"/>
+      <line num="248" type="stmt" count="8"/>
+      <line num="249" type="stmt" count="8"/>
       <line num="250" type="stmt" count="8"/>
-      <line num="251" type="stmt" count="8"/>
-      <line num="252" type="stmt" count="8"/>
-      <line num="253" type="stmt" count="0"/>
-      <line num="254" type="stmt" count="8"/>
-      <line num="255" type="stmt" count="8"/>
-      <line num="256" type="stmt" count="0"/>
-      <line num="257" type="stmt" count="8"/>
-      <line num="258" type="stmt" count="8"/>
-      <line num="259" type="stmt" count="0"/>
-      <line num="260" type="stmt" count="8"/>
+      <line num="256" type="stmt" count="8"/>
+      <line num="259" type="method" name="isFS" visibility="private" complexity="2" crap="2" count="8"/>
       <line num="261" type="stmt" count="8"/>
-      <line num="262" type="stmt" count="0"/>
-      <line num="263" type="stmt" count="8"/>
-      <line num="264" type="stmt" count="0"/>
-      <line num="265" type="stmt" count="8"/>
-      <line num="266" type="stmt" count="0"/>
-      <line num="267" type="stmt" count="8"/>
-      <line num="268" type="stmt" count="8"/>
-      <line num="269" type="stmt" count="8"/>
-      <line num="270" type="stmt" count="1"/>
-      <line num="271" type="stmt" count="8"/>
-      <line num="272" type="stmt" count="8"/>
-      <line num="273" type="stmt" count="8"/>
-      <line num="274" type="stmt" count="1"/>
-      <line num="275" type="stmt" count="8"/>
-      <line num="276" type="stmt" count="8"/>
-      <line num="277" type="stmt" count="8"/>
-      <line num="278" type="stmt" count="8"/>
-      <line num="279" type="stmt" count="0"/>
-      <line num="281" type="stmt" count="8"/>
-      <metrics loc="287" ncloc="284" classes="1" methods="22" coveredmethods="21" conditionals="0" coveredconditionals="0" statements="146" coveredstatements="139" elements="168" coveredelements="160"/>
+      <line num="264" type="method" name="pattern" visibility="private" complexity="3" crap="3" count="8"/>
+      <line num="266" type="stmt" count="8"/>
+      <line num="290" type="stmt" count="8"/>
+      <line num="291" type="stmt" count="1"/>
+      <line num="293" type="stmt" count="8"/>
+      <metrics loc="298" ncloc="284" classes="1" methods="23" coveredmethods="23" conditionals="0" coveredconditionals="0" statements="120" coveredstatements="120" elements="143" coveredelements="143"/>
     </file>
     <file name="/var/code/src/VPA/Console/Glyphs/GlyphInline.php">
       <class name="VPA\Console\Glyphs\GlyphInline" namespace="global">
@@ -484,7 +552,7 @@
     </file>
     <file name="/var/code/src/VPA/Console/Glyphs/Text.php">
       <class name="VPA\Console\Glyphs\Text" namespace="global">
-        <metrics complexity="12" methods="4" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="40" coveredstatements="39" elements="44" coveredelements="42"/>
+        <metrics complexity="13" methods="4" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="40" coveredstatements="39" elements="44" coveredelements="42"/>
       </class>
       <line num="12" type="method" name="setValue" visibility="public" complexity="1" crap="1" count="24"/>
       <line num="14" type="stmt" count="24"/>
@@ -497,7 +565,7 @@
       <line num="22" type="stmt" count="24"/>
       <line num="25" type="method" name="getValue" visibility="public" complexity="1" crap="2" count="0"/>
       <line num="27" type="stmt" count="0"/>
-      <line num="30" type="method" name="render" visibility="public" complexity="5" crap="5" count="24"/>
+      <line num="30" type="method" name="render" visibility="public" complexity="6" crap="6" count="24"/>
       <line num="32" type="stmt" count="24"/>
       <line num="33" type="stmt" count="24"/>
       <line num="34" type="stmt" count="24"/>
@@ -591,6 +659,6 @@
       </class>
       <metrics loc="19" ncloc="10" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
-    <metrics files="17" loc="1105" ncloc="1085" classes="14" methods="85" coveredmethods="78" conditionals="0" coveredconditionals="0" statements="414" coveredstatements="401" elements="499" coveredelements="479"/>
+    <metrics files="18" loc="1274" ncloc="1240" classes="15" methods="91" coveredmethods="80" conditionals="0" coveredconditionals="0" statements="471" coveredstatements="385" elements="562" coveredelements="465"/>
   </project>
 </coverage>
