@@ -6,9 +6,11 @@ class Cell extends GlyphBlock
 {
     public function getWidthByContent(int $endOfPreviousSibling = 0): int
     {
+        $this->offsetX = $this->__get('paddingLeft') + $this->__get('borderLeft');
         if ($this->renderedWidth) {
             return $this->width;
         }
+
         foreach ($this->children as $child) {
             $this->width = $child->getWidthByContent(0);
         }
@@ -18,6 +20,8 @@ class Cell extends GlyphBlock
 
     public function getHeightByContent(int $endOfPreviousSibling = 0): int
     {
+        $deltaTop = $this->__get('paddingTop') + $this->__get('borderTop');
+        $this->offsetY = $deltaTop;
         if ($this->renderedHeight) {
             return $this->height;
         }

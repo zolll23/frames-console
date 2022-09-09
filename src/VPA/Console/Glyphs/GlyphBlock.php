@@ -187,7 +187,7 @@ abstract class GlyphBlock extends Glyph
     {
         $height = $this->getHeight();
         if ($this->__get('borderLeft')) {
-            for ($i = 0; $i < $this->getWidth(); $i++) {
+            for ($i = 0; $i < $height; $i++) {
                 if ($i == 0 && $this->renderMap[$i][0]->is($this->gc('lineHorizontal'))) {
                     $this->renderMap[$i][0] = $this->gc('cornerLeftTop');
                 } elseif ($i == $height - 1 && $this->renderMap[$i][0]->is($this->gc('lineHorizontal'))) {
@@ -236,51 +236,51 @@ abstract class GlyphBlock extends Glyph
     private function getSprite(int $x, int $y): string
     {
         $codes = [
-            isset($this->cachedRenderMap[$y - 1][$x]) ? $this->cachedRenderMap[$y - 1][$x]->getAlias() : '0',
-            isset($this->cachedRenderMap[$y][$x - 1]) ? $this->cachedRenderMap[$y][$x - 1]->getAlias() : '0',
-            isset($this->cachedRenderMap[$y][$x]) ? $this->cachedRenderMap[$y][$x]->getAlias() : '0',
-            isset($this->cachedRenderMap[$y][$x + 1]) ? $this->cachedRenderMap[$y][$x + 1]->getAlias() : '0',
-            isset($this->cachedRenderMap[$y + 1][$x]) ? $this->cachedRenderMap[$y + 1][$x]->getAlias() : '0',
+            $this->isFS($y - 1, $x) ? $this->cachedRenderMap[$y - 1][$x]->getAlias() : '0',
+            $this->isFS($y, $x - 1) ? $this->cachedRenderMap[$y][$x - 1]->getAlias() : '0',
+            $this->isFS($y, $x) ? $this->cachedRenderMap[$y][$x]->getAlias() : '0',
+            $this->isFS($y, $x + 1) ? $this->cachedRenderMap[$y][$x + 1]->getAlias() : '0',
+            $this->isFS($y + 1, $x) ? $this->cachedRenderMap[$y + 1][$x]->getAlias() : '0',
         ];
         return implode("", $codes);
     }
 
+    private function isFS(int $y, int $x): bool
+    {
+        return isset($this->cachedRenderMap[$y][$x]) && $this->cachedRenderMap[$y][$x]->getAlias() != '';
+    }
+
     private function pattern(string $codes): object|bool
     {
-        switch ($codes) {
-            case '00|-|':
-            case '00--|':
-                return $this->gc('cornerLeftTop');
-            case '0-|0|':
-            case '0--0|':
-                return $this->gc('cornerRightTop');
-            case '|0|-|':
-            case '|0|-z':
-                return $this->gc('cornerLeftMiddle');
-            case '|-|0|':
-            case '|-|0c':
-                return $this->gc('cornerRightMiddle');
-            case '|-|00':
-                return $this->gc('cornerRightBottom');
-            case '|0|-0':
-                return $this->gc('cornerLeftBottom');
-            case '0---|':
-            case '0-|-|':
-            case '0-e-|':
-                return $this->gc('cornerMiddleTop');
-            case '|---0':
-            case '--|-0':
-            case '|-c-0':
-                return $this->gc('cornerMiddleBottom');
-            case '|-|-|':
-            case '|-c-|':
-            case '|-q-|':
-            case '|-x-|':
-                return $this->gc('cornerMiddleMiddle');
+        $codesTable = [
+            '00|-|' => 'cornerLeftTop',
+            '00--|' => 'cornerLeftTop',
+            '0-|0|' => 'cornerRightTop',
+            '0--0|' => 'cornerRightTop',
+            '|0|-|' => 'cornerLeftMiddle',
+            '|0|-z' => 'cornerLeftMiddle',
+            '|0z-|' => 'cornerLeftMiddle',
+            '|-|0|' => 'cornerRightMiddle',
+            '|-|0c' => 'cornerRightMiddle',
+            '|-c0|' => 'cornerRightMiddle',
+            '|-|00' => 'cornerRightBottom',
+            '|0|-0' => 'cornerLeftBottom',
+            '0---|' => 'cornerMiddleTop',
+            '0-|-|' => 'cornerMiddleTop',
+            '0-e-|' => 'cornerMiddleTop',
+            '|---0' => 'cornerMiddleBottom',
+            '--|-0' => 'cornerMiddleBottom',
+            '|-c-0' => 'cornerMiddleBottom',
+            '|-|-|' => 'cornerMiddleMiddle',
+            '|-c-|' => 'cornerMiddleMiddle',
+            '|-q-|' => 'cornerMiddleMiddle',
+            '|-x-|' => 'cornerMiddleMiddle',
+        ];
+        if (array_key_exists($codes, $codesTable) && $codesTable[$codes]) {
+            return $this->gc($codesTable[$codes]);
         }
         return false;
     }
-
 
 
 }

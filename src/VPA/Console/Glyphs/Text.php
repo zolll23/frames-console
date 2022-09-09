@@ -50,9 +50,9 @@ class Text extends GlyphInline
         }
         $symbols = str_split($resultString);
 
-        $this->renderMap = array_chunk(array_map(function ($value) {
+        $this->renderMap = $this->getWidth() ? array_chunk(array_map(function ($value) {
             return new Symbol($value);
-        }, $symbols), $this->getWidth());
+        }, $symbols), $this->getWidth()) : [];
         $this->height = count($this->renderMap);
         return $this;
     }
