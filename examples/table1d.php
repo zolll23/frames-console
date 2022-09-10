@@ -1,5 +1,6 @@
 <?php
 
+use VPA\Console\Color;
 use VPA\Console\Components\Table1D;
 use VPA\Console\Shell;
 use VPA\Console\TableDisplayMode;
@@ -26,6 +27,7 @@ try {
     $table1d->setConfig([
         'columns' => 2,
         'secondColumnWidth' => 30,
+        'borderColor' => Color::RED
     ]);
     $table1d->setData($data);
     $page->display();
@@ -34,7 +36,7 @@ try {
         ->setBorder(1, 1, 1, 1)
         ->setPadding(2, 2, 1, 1);
     $table1d = (new Table1D($config))
-        ->setConfig(['secondColumnWidth' => 30,])
+        ->setConfig(['secondColumnWidth' => 30])
         ->setHeader("Attribute", "Value");
     $div->addChild($table1d);
     $table1d->setData($data);
@@ -58,6 +60,8 @@ try {
     $table1d->setConfig([
         'type' => TableDisplayMode::Frame,
         'secondColumnWidth' => 30,
+        'borderColor' => Color::RED,
+        'color' => Color::WHITE
     ])->setHeader("Attribute", "Value");
     $table1d->output($data);
 

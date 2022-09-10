@@ -96,7 +96,7 @@ class Table1D extends GlyphBlock
     public function setData($data): Glyph
     {
         $this->data = $data;
-        $table = $this->addTable();
+        $table = $this->addTable($this->getConfig());
         $type = $this->__get('type');
         $this->columns = $this->getAutoColumnsNum();
 
