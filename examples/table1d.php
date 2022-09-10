@@ -16,7 +16,8 @@ $di->registerContainers([
 
 $shell = new Shell();
 $config = new FrameConsoleConfig($shell);
-
+$page = (new Page($config))->setPadding(3, 3, 3, 3);
+//$page = $di->get(Page::class)->setPadding(3, 3, 3, 3);
 try {
     $data = [
         'Company' => 'Everyone Inc',
@@ -26,14 +27,27 @@ try {
         'Code IPU' => 'UI2929I199',
         'Serial No' => '19889',
     ];
-    $table1d = $di->get(Table1D::class);
+    $table1d = new Table1D($config);
+    $page->addChild($table1d);
     $table1d->setConfig([
         'columns' => 2,
         'secondColumnWidth' => 30,
     ]);
-    $table1d->output($data);
+    $table1d->setData($data);
+    $page->display();
 
-    $table1d = $di->get(Table1D::class);
+    $div = $page->addDiv()
+        ->setBorder(1, 1, 1, 1)
+        ->setPadding(2, 2, 1, 1);
+    $table1d = (new Table1D($config))
+        ->setConfig(['secondColumnWidth' => 30,])
+        ->setHeader("Attribute", "Value");
+    //$table1d->output($data);
+    $div->addChild($table1d);
+    $table1d->setData($data);
+    $page->display();
+
+    $table1d = new Table1D($config);
     $table1d->setConfig([
         'secondColumnWidth' => 30,
     ])->setHeader("Attribute", "Value");
