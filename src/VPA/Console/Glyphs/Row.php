@@ -10,6 +10,7 @@ class Row extends GlyphBlock
         $cell = new Cell($this->globalConfig);
         // Colors are inherited from the parent and override default values
         $symbolConfig = [
+            'mode' => $this->__get('mode'),
             'color' => $this->__get('color'),
             'borderColor' => $this->__get('borderColor'),
             'backgroundColor' => $this->__get('backgroundColor'),

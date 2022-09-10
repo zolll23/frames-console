@@ -6,11 +6,12 @@ namespace VPA\Console\Glyphs;
 
 class Table extends GlyphBlock
 {
-    public function addRow(array $config = []): Glyph
+    public function addRow(array $config = []): Row
     {
         $row = new Row($this->globalConfig);
         // Colors are inherited from the parent
         $symbolConfig = [
+            'mode' => $this->__get('mode'),
             'color' => $this->__get('color'),
             'borderColor' => $this->__get('borderColor'),
             'backgroundColor' => $this->__get('backgroundColor'),

@@ -6,6 +6,7 @@ use VPA\Console\FrameConfigInterface;
 use VPA\Console\Glyphs\Glyph;
 use VPA\Console\Glyphs\GlyphBlock;
 use VPA\Console\Glyphs\Row;
+use VPA\Console\SymbolMode;
 use VPA\Console\TableDisplayMode;
 
 class Table1D extends GlyphBlock
@@ -115,7 +116,7 @@ class Table1D extends GlyphBlock
         }
 
         if ($this->haveHeader) {
-            $header = $table->addRow();
+            $header = $table->addRow(['mode'=>SymbolMode::BOLD]);
             for ($i = 0; $i < $this->columns; $i++) {
                 $this->addCells($header, $this->firstColumnTitle, $this->secondColumnTitle, $borderHead, $borderV, $i);
             }

@@ -48,6 +48,7 @@ abstract class Glyph
             'paddingBottom' => 0,
             'width' => 'auto',
             'maxWidth' => 100,
+            'mode' => SymbolMode::DEFAULT,
             'color' => Color::WHITE,
         ];
     }
