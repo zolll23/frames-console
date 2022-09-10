@@ -26,7 +26,7 @@ Example of table with different aligns for text, limitation of max length of cel
 
 Result:
 
-![Screenshot of Div example](docs/table.png)
+![Screenshot of Div example](table.png)
 
 Like DIV, table supports nested calls. You can just do it:
 ```
@@ -48,4 +48,4 @@ $page->display();
 
 And get it:
 
-![Screenshot of Div example](docs/nestedTable.png)
+![Screenshot of Div example](nestedTable.png)
