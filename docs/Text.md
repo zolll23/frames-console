@@ -20,7 +20,7 @@ $page->display();
 ```
 You can see:
 
-![Screenshot of Text example](docs/text.png)
+![Screenshot of Text example](text.png)
 
 Text element supports the attribute __textAlign__: left (default), center, right.
 
@@ -42,5 +42,5 @@ $text = $page->addText(['textAlign' => 'center', 'maxWidth' => 100])->setValue("
 $page->display();
 ```
 
-![Screenshot of Text example](docs/textWithAlign.png)
+![Screenshot of Text example](textWithAlign.png)
 
