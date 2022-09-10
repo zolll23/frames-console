@@ -48,7 +48,7 @@ class Text extends GlyphInline
         foreach ($batches as $batch) {
             $resultString .= str_pad(ltrim($batch), $this->getWidth(), ' ', $padding);
         }
-        $symbols = str_split($resultString);
+        $symbols = str_split($resultString) ?? [];
 
         $this->renderMap = $this->getWidth() ? array_chunk(array_map(function ($value) {
             return new Symbol($value);

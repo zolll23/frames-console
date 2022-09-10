@@ -5,6 +5,7 @@ namespace VPA\Console\Components;
 use VPA\Console\FrameConfigInterface;
 use VPA\Console\Glyphs\Glyph;
 use VPA\Console\Glyphs\GlyphBlock;
+use VPA\Console\Glyphs\Row;
 use VPA\Console\TableDisplayMode;
 
 class Table1D extends GlyphBlock
@@ -37,7 +38,15 @@ class Table1D extends GlyphBlock
         $this->documentWidth = $this->gc('shell')->getDocumentWidthFromOS();
     }
 
-    public function setHeader(string|array $firstTitle, ?string $secondTitle): Glyph
+    /**
+     * Add header info to Table1D.
+     * Can get names of columns as array setHeader([titleFirst, titleSecond])
+     * or as 2 string params:setHeader(titleFirst, titleSecond)
+     * @param string|array $firstTitle
+     * @param string|null $secondTitle
+     * @return Glyph
+     */
+    public function setHeader(string|array $firstTitle, ?string $secondTitle = ''): Glyph
     {
         $this->haveHeader = true;
         if (is_array($firstTitle) && count($firstTitle) == 2) {
@@ -48,6 +57,11 @@ class Table1D extends GlyphBlock
         $this->firstColumnTitle = $firstTitle ?? '';
         $this->secondColumnTitle = $secondTitle ?? '';
         return $this;
+    }
+
+    public function getHeader(): array
+    {
+        return [$this->firstColumnTitle, $this->secondColumnTitle];
     }
 
     private function getAutoColumnsNum(): int
@@ -73,12 +87,12 @@ class Table1D extends GlyphBlock
             $keyRealWidth = min([$keyWidth, $this->firstWidth, $this->firstMaxWidth]);
             $valueRealWidth = min([$valueWidth, $this->secondWidth, $this->secondMaxWidth]);
             $width = $keyRealWidth + $valueRealWidth + $deltaWidth;
-            return floor($this->getDocumentWidth() / $width);
+            return intval(floor($this->getDocumentWidth() / $width));
         }
         return $columns;
     }
 
-    public function output($data): Glyph
+    public function setData($data): Glyph
     {
         $this->data = $data;
         $table = $this->addTable();
@@ -118,22 +132,26 @@ class Table1D extends GlyphBlock
                 } else {
                     $this->addCells($row, '', '', $borderH, $borderV, $i);
                 }
-
             }
         } while ($value);
+        return $this;
+    }
+
+    public function output($data): Glyph
+    {
+        $this->setData($data);
         $this->display();
         return $this;
     }
 
     private function addCells(
-        Glyph $row,
+        Row $row,
         string $first,
         string $second,
         int $borderBottom = 0,
         int $borderV = 1,
         int $column = 1
-    ): array
-    {
+    ): array {
         $firstCell = $row->addCell()
             ->setPadding(self::PADDING_X, self::PADDING_X, 0, 0)->setBorder(0, $borderV, 0, $borderBottom);
         $this->firstWidth !== 'auto' && $firstCell = $firstCell->setWidth(intval($this->firstWidth));

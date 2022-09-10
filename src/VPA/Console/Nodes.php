@@ -11,7 +11,7 @@ use VPA\Console\Glyphs\Text;
 
 trait Nodes
 {
-    public function addTable(array $config = []): Glyph
+    public function addTable(array $config = []): Table
     {
         $table = new Table($this->globalConfig);
         $table->setConfig(array_merge($table->getConfig(), $config));
@@ -19,7 +19,7 @@ trait Nodes
         return $table;
     }
 
-    public function addDiv(array $config = []): Glyph
+    public function addDiv(array $config = []): Div
     {
         $div = new Div($this->globalConfig);
         $div->setConfig(array_merge($div->getConfig(), $config));
@@ -27,7 +27,7 @@ trait Nodes
         return $div;
     }
 
-    public function addText(array $config = []): Glyph
+    public function addText(array $config = []): Text
     {
         $text = new Text($this->globalConfig);
         $text->setConfig(array_merge($text->getConfig(), $config));

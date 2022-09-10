@@ -5,7 +5,7 @@ namespace VPA\Console\Glyphs;
 
 class Row extends GlyphBlock
 {
-    public function addCell(array $config = []): Glyph
+    public function addCell(array $config = []): Cell
     {
         $cell = new Cell($this->globalConfig);
         $cell->setConfig(array_merge($cell->getConfig(), $config));
