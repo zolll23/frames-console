@@ -1,8 +1,6 @@
 <?php
 
-
 namespace VPA\Console;
-
 
 class FrameSymbol extends Symbol
 {
@@ -18,6 +16,7 @@ class FrameSymbol extends Symbol
 
     public function __toString(): string
     {
-        return sprintf("\x1b(0%s\x1b(B", $this->string);
+        list($start, $end) = $this->colorizeText();
+        return sprintf("%s\x1b(0%s\x1b(B%s", $start, $this->string, $end);
     }
 }

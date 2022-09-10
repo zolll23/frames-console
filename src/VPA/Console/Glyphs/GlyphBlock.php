@@ -2,8 +2,10 @@
 
 namespace VPA\Console\Glyphs;
 
+use VPA\Console\Color;
 use VPA\Console\FrameConfigInterface;
 use VPA\Console\Symbol;
+use VPA\Console\SymbolMode;
 
 abstract class GlyphBlock extends Glyph
 {
@@ -27,6 +29,8 @@ abstract class GlyphBlock extends Glyph
                 'borderLeft' => 0,
                 'borderRight' => 0,
                 'borderBottom' => 0,
+                'borderColor' => Color::WHITE,
+                'backgroundColor' => Color::BLACK,
             ]
         );
         $this->calculateDeltaWidth();
@@ -145,11 +149,8 @@ abstract class GlyphBlock extends Glyph
 
     public function render(): Glyph
     {
-        $width = $this->getWidthByContent();
-        $height = $this->getHeightByContent();
-        for ($i = 0; $i < $height; $i++) {
-            $this->renderMap[$i] = array_fill(0, $width, $this->gc('space'));
-        }
+        $this->getWidthByContent();
+        $this->getHeightByContent();
         parent::render();
         $this->renderBorder();
         $this->renderBySprites();
@@ -168,7 +169,7 @@ abstract class GlyphBlock extends Glyph
     {
         if ($this->__get('borderTop')) {
             for ($i = 0; $i < $this->getWidth(); $i++) {
-                $this->renderMap[0][$i] = $this->gc('lineHorizontal');
+                $this->renderMap[0][$i] = clone $this->gc('lineHorizontal');
             }
         }
     }
@@ -178,7 +179,7 @@ abstract class GlyphBlock extends Glyph
         $height = $this->getHeight();
         if ($this->__get('borderBottom')) {
             for ($i = 0; $i < $this->getWidth(); $i++) {
-                $this->renderMap[$height - 1][$i] = $this->gc('lineHorizontal');
+                $this->renderMap[$height - 1][$i] = clone $this->gc('lineHorizontal');
             }
         }
     }
@@ -189,11 +190,11 @@ abstract class GlyphBlock extends Glyph
         if ($this->__get('borderLeft')) {
             for ($i = 0; $i < $height; $i++) {
                 if ($i == 0 && $this->renderMap[$i][0]->is($this->gc('lineHorizontal'))) {
-                    $this->renderMap[$i][0] = $this->gc('cornerLeftTop');
+                    $this->renderMap[$i][0] = clone $this->gc('cornerLeftTop');
                 } elseif ($i == $height - 1 && $this->renderMap[$i][0]->is($this->gc('lineHorizontal'))) {
-                    $this->renderMap[$i][0] = $this->gc('cornerLeftBottom');
+                    $this->renderMap[$i][0] = clone $this->gc('cornerLeftBottom');
                 } else {
-                    $this->renderMap[$i][0] = $this->gc('lineVertical');
+                    $this->renderMap[$i][0] = clone $this->gc('lineVertical');
                 }
             }
         }
@@ -206,14 +207,14 @@ abstract class GlyphBlock extends Glyph
         if ($this->__get('borderRight')) {
             for ($i = 0; $i < $height; $i++) {
                 if ($i == 0 && $this->renderMap[$i][$width - 1]->is($this->gc('lineHorizontal'))) {
-                    $this->renderMap[$i][$width - 1] = $this->gc('cornerRightTop');
+                    $this->renderMap[$i][$width - 1] = clone $this->gc('cornerRightTop');
                 } elseif (
                     $i == $height - 1 &&
                     $this->renderMap[$i][$width - 1]->is($this->gc('lineHorizontal'))
                 ) {
-                    $this->renderMap[$i][$width - 1] = $this->gc('cornerRightBottom');
+                    $this->renderMap[$i][$width - 1] = clone $this->gc('cornerRightBottom');
                 } else {
-                    $this->renderMap[$i][$width - 1] = $this->gc('lineVertical');
+                    $this->renderMap[$i][$width - 1] = clone $this->gc('lineVertical');
                 }
             }
         }
@@ -277,7 +278,7 @@ abstract class GlyphBlock extends Glyph
             '|-x-|' => 'cornerMiddleMiddle',
         ];
         if (array_key_exists($codes, $codesTable) && $codesTable[$codes]) {
-            return $this->gc($codesTable[$codes]);
+            return clone $this->gc($codesTable[$codes]);
         }
         return false;
     }

@@ -8,7 +8,13 @@ class Row extends GlyphBlock
     public function addCell(array $config = []): Cell
     {
         $cell = new Cell($this->globalConfig);
-        $cell->setConfig(array_merge($cell->getConfig(), $config));
+        // Colors are inherited from the parent and override default values
+        $symbolConfig = [
+            'color' => $this->__get('color'),
+            'borderColor' => $this->__get('borderColor'),
+            'backgroundColor' => $this->__get('backgroundColor'),
+        ];
+        $cell->setConfig(array_merge($cell->getConfig(), $symbolConfig, $config));
         $this->addChild($cell);
         return $cell;
     }

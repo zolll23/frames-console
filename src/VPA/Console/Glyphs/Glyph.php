@@ -2,10 +2,12 @@
 
 namespace VPA\Console\Glyphs;
 
+use VPA\Console\Color;
 use VPA\Console\FrameConfigInterface;
 use VPA\Console\FrameSymbol;
 use VPA\Console\Nodes;
 use VPA\Console\Symbol;
+use VPA\Console\SymbolMode;
 use VPA\DI\Injectable;
 
 #[Injectable]
@@ -32,6 +34,7 @@ abstract class Glyph
     protected bool $renderedHeight = false;
     protected int $contentWidth = 0;
     protected int $contentHeight = 0;
+    protected array $symbolConfig = [];
 
 
     public function __construct(protected FrameConfigInterface $globalConfig)
@@ -45,6 +48,7 @@ abstract class Glyph
             'paddingBottom' => 0,
             'width' => 'auto',
             'maxWidth' => 100,
+            'color' => Color::WHITE,
         ];
     }
 
@@ -102,11 +106,6 @@ abstract class Glyph
             return $this->renderMap;
         }
         $this->isRendered = true;
-        $width = $this->getWidth();
-        $height = $this->getHeight();
-        for ($i = 0; $i < $height; $i++) {
-            $this->renderMap[$i] = array_fill(0, $width, $this->globalConfig->__get('space'));
-        }
         $this->render();
         return $this->renderMap;
     }
@@ -119,6 +118,16 @@ abstract class Glyph
 
     public function render(): Glyph
     {
+        $width = $this->getWidth();
+        $height = $this->getHeight();
+        $this->symbolConfig = [
+            'mode' => SymbolMode::DEFAULT,
+            'color' => $this->__get('borderColor'),
+            'backgroundColor' => $this->__get('backgroundColor'),
+        ];
+        for ($i = 0; $i < $height; $i++) {
+            $this->renderMap[$i] = array_fill(0, $width, clone $this->gc('space'));
+        }
         foreach ($this->children as $child) {
             $this->mergeMaps($child->render());
         }
@@ -201,7 +210,11 @@ abstract class Glyph
 
     protected function gc(string $name): object
     {
-        return $this->globalConfig->__get($name);
+        $property = $this->globalConfig->__get($name);
+        if ($property instanceof Symbol) {
+            return $property->setConfig($this->symbolConfig);
+        }
+        return $property;
     }
 
 
@@ -259,10 +272,12 @@ abstract class Glyph
 
     private function mergeMaps(Glyph $render): void
     {
+        $offsetX = $render->X + $this->offsetX;
+        $offsetY = $render->Y + $this->offsetY;
         foreach ($render->renderMap as $y => $line) {
             foreach ($line as $x => $item) {
-                $coordX = $render->X + $this->offsetX + $x;
-                $coordY = $render->Y + $this->offsetY + intval($y);
+                $coordX = $offsetX + $x;
+                $coordY = $offsetY + intval($y);
                 $this->renderMap[$coordY][$coordX] = $item;
             }
         }

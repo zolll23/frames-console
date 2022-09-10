@@ -49,9 +49,13 @@ class Text extends GlyphInline
             $resultString .= str_pad(ltrim($batch), $this->getWidth(), ' ', $padding);
         }
         $symbols = str_split($resultString) ?? [];
-
-        $this->renderMap = $this->getWidth() ? array_chunk(array_map(function ($value) {
-            return new Symbol($value);
+        $symbolConfig = [
+            'mode' => $this->__get('mode'),
+            'color' => $this->__get('color'),
+            'backgroundColor' => $this->__get('backgroundColor'),
+        ];
+        $this->renderMap = $this->getWidth() ? array_chunk(array_map(function ($value) use ($symbolConfig) {
+            return (new Symbol($value))->setConfig($symbolConfig);
         }, $symbols), $this->getWidth()) : [];
         $this->height = count($this->renderMap);
         return $this;

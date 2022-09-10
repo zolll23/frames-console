@@ -9,7 +9,13 @@ class Table extends GlyphBlock
     public function addRow(array $config = []): Glyph
     {
         $row = new Row($this->globalConfig);
-        $row->setConfig(array_merge($row->getConfig(), $config));
+        // Colors are inherited from the parent
+        $symbolConfig = [
+            'color' => $this->__get('color'),
+            'borderColor' => $this->__get('borderColor'),
+            'backgroundColor' => $this->__get('backgroundColor'),
+        ];
+        $row->setConfig(array_merge($row->getConfig(), $symbolConfig, $config));
         $this->addChild($row);
         return $row;
     }

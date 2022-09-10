@@ -3,21 +3,15 @@
 use VPA\Console\Components\Table1D;
 use VPA\Console\Shell;
 use VPA\Console\TableDisplayMode;
-use VPA\DI\Container;
 use VPA\Console\FrameConsoleConfig;
 use VPA\Console\Glyphs\Page;
 
 require_once(__DIR__ . '/../vendor/autoload.php');
 
-$di = new Container();
-$di->registerContainers([
-    'VPA\Console\FrameConfigInterface' => FrameConsoleConfig::class,
-]);
-
 $shell = new Shell();
 $config = new FrameConsoleConfig($shell);
 $page = (new Page($config))->setPadding(3, 3, 3, 3);
-//$page = $di->get(Page::class)->setPadding(3, 3, 3, 3);
+
 try {
     $data = [
         'Company' => 'Everyone Inc',
@@ -42,7 +36,6 @@ try {
     $table1d = (new Table1D($config))
         ->setConfig(['secondColumnWidth' => 30,])
         ->setHeader("Attribute", "Value");
-    //$table1d->output($data);
     $div->addChild($table1d);
     $table1d->setData($data);
     $page->display();
@@ -53,7 +46,7 @@ try {
     ])->setHeader("Attribute", "Value");
     $table1d->output($data);
 
-    $table1d = $di->get(Table1D::class);
+    $table1d = new Table1D($config);
     $table1d->setConfig([
         'columns' => 'auto',
         'secondColumnMaxWidth' => 30,
@@ -61,14 +54,14 @@ try {
     $table1d->output($data);
 
 
-    $table1d = $di->get(Table1D::class);
+    $table1d = new Table1D($config);
     $table1d->setConfig([
         'type' => TableDisplayMode::Frame,
         'secondColumnWidth' => 30,
     ])->setHeader("Attribute", "Value");
     $table1d->output($data);
 
-    $table1d = $di->get(Table1D::class);
+    $table1d = new Table1D($config);
     $table1d->setConfig([
         'type' => TableDisplayMode::Frameless,
         'secondColumnWidth' => 30,

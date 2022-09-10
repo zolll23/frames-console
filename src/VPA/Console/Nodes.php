@@ -30,7 +30,13 @@ trait Nodes
     public function addText(array $config = []): Text
     {
         $text = new Text($this->globalConfig);
-        $text->setConfig(array_merge($text->getConfig(), $config));
+        // Colors are inherited from the parent and override default values
+        $symbolConfig = [
+            'color' => $this->__get('color'),
+            'borderColor' => $this->__get('borderColor'),
+            'backgroundColor' => $this->__get('backgroundColor'),
+        ];
+        $text->setConfig(array_merge($text->getConfig(), $symbolConfig,  $config));
         $this->addChild($text);
         return $text;
     }
