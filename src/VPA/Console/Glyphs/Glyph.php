@@ -84,7 +84,7 @@ abstract class Glyph
         return $this->config;
     }
 
-    protected function addChild(Glyph $child): Glyph
+    public function addChild(Glyph $child): Glyph
     {
         $this->children[] = $child;
         $child->setParent($this);
