@@ -21,5 +21,5 @@ $page->display();
 
 Result:
 
-![Screenshot of Div example](docs/div.png)
+![Screenshot of Div example](div.png)
 
