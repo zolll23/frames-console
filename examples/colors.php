@@ -18,7 +18,7 @@ $page = $di->get(Page::class);
 $page->setConfig([
     'borderColor' => Color::BLACK,
     'backgroundColor' => Color::GREEN
-])->setBorder(1,1,1,1);
+])->setBorder(1, 1, 1, 1);
 $page->setPadding(1, 1, 1, 1);
 $documentWidth = $page->getDocumentWidth();
 echo str_repeat("\n", 5);
@@ -47,7 +47,7 @@ $page->addText(['mode' => SymbolMode::UNDERLINE, 'color' => Color::RED, 'backgro
 $page->addText(['mode' => SymbolMode::BLINKING, 'color' => Color::RED, 'backgroundColor' => Color::WHITE])
     ->setValue("Line 1");
 
-$div= $page->addDiv()->setPadding(1, 1, 1, 1)->setBorder(1, 1, 1, 1);
+$div = $page->addDiv()->setPadding(1, 1, 1, 1)->setBorder(1, 1, 1, 1);
 $div->setConfig([
     'mode' => SymbolMode::DEFAULT,
     'borderColor' => Color::RED,

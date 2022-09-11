@@ -1,16 +1,15 @@
 <?php
 
-
 namespace VPA\Console;
 
-
 use VPA\Console\Glyphs\Div;
-use VPA\Console\Glyphs\Glyph;
 use VPA\Console\Glyphs\Table;
 use VPA\Console\Glyphs\Text;
 
 trait Nodes
 {
+    abstract public function __get(string $name);
+
     public function addTable(array $config = []): Table
     {
         $table = new Table($this->globalConfig);
@@ -37,7 +36,7 @@ trait Nodes
             'borderColor' => $this->__get('borderColor'),
             'backgroundColor' => $this->__get('backgroundColor'),
         ];
-        $text->setConfig(array_merge($text->getConfig(), $symbolConfig,  $config));
+        $text->setConfig(array_merge($text->getConfig(), $symbolConfig, $config));
         $this->addChild($text);
         return $text;
     }
