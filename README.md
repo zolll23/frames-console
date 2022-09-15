@@ -1,6 +1,7 @@
 **Frames-console**
 
-[![Latest Stable Version](http://poser.pugx.org/vpa/frames-console/v)](https://packagist.org/packages/vpa/frames-console) [![Total Downloads](http://poser.pugx.org/vpa/frames-console/downloads)](https://packagist.org/packages/vpa/frames-console) [![Latest Unstable Version](http://poser.pugx.org/vpa/frames-console/v/unstable)](https://packagist.org/packages/vpa/frames-console) [![License](http://poser.pugx.org/vpa/frames-console/license)](https://packagist.org/packages/vpa/frames-console) [![PHP Version Require](http://poser.pugx.org/vpa/frames-console/require/php)](https://packagist.org/packages/vpa/frames-console)
+[![Latest Stable Version](http://poser.pugx.org/vpa/frames-console/v)](https://packagist.org/packages/vpa/frames-console) 
+[![Latest Unstable Version](http://poser.pugx.org/vpa/frames-console/v/unstable)](https://packagist.org/packages/vpa/frames-console) [![License](http://poser.pugx.org/vpa/frames-console/license)](https://packagist.org/packages/vpa/frames-console) [![PHP Version Require](http://poser.pugx.org/vpa/frames-console/require/php)](https://packagist.org/packages/vpa/frames-console)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/zolll23/frames-console/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/zolll23/frames-console/?branch=main)
 [![Code Coverage](https://scrutinizer-ci.com/g/zolll23/frames-console/badges/coverage.png?b=main)](https://scrutinizer-ci.com/g/zolll23/frames-console/?branch=main)
 [![Build Status](https://scrutinizer-ci.com/g/zolll23/frames-console/badges/build.png?b=main)](https://scrutinizer-ci.com/g/zolll23/frames-console/build-status/main)
